@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>All Salons</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- List of Text Items -->
+<ion-content>
+  <ion-list>
+    <div class="tab2-content-center">
+      <ion-card class="salons" *ngFor="let salon of salonData" button>
+        <!-- <button class="salon-style" [routerLink]="['/saloninter/',salon.id]">
+          <img src="{{ salon?.logoUrl}}" alt="" height="60px" width="60px" slot="start"/>
+          <ion-label class="each-salon" slot="end">{{salon.salonName}}</ion-label>
+        </button> -->
+        <div class="tab2-card-content">
+          <div class="spacer-w-xs"></div>
+          <!-- SALON AVATAR -->
+          <ion-avatar>
+            <img src="{{salon?.logoUrl}}" />
+          </ion-avatar>
+          <div class="spacer-w-xs"></div>
+          <!-- SALON NAME -->
+          <ion-label class="each-salon">{{salon.salonName}}</ion-label>
+        </div>
+      </ion-card>
+    </div>
+  </ion-list>
+</ion-content>

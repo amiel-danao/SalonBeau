@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      </ion-buttons>
+    <ion-title>Appointment Information</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class="container">
+    <form>
+      <ion-input
+      name="name"
+      [(ngModel)]="name"
+      class="name"
+      type="name"
+      placeholder="Name"
+      >Name</ion-input>
+      <ion-input
+      name="email"
+      [(ngModel)]="email"
+      class="email"
+      type="email"
+      placeholder="Email"
+      >email</ion-input>
+      <ion-select
+        name="services"
+        [(ngModel)]="services"
+        placeholder="Select Services"
+        [value]="salonServiceParams"
+        class="select-option-text"
+      >
+        <ion-select-option
+          *ngFor="let services of servicesList"
+          value="{{services}}"
+        >
+          {{services}}</ion-select-option
+        >
+      </ion-select>
+      <ion-select
+        name="stylist"
+        [(ngModel)]="stylist"
+        placeholder="Select stylist"
+        [value]="salonstylistParams"
+        class="select-option-text"
+      >
+        <ion-select-option
+        *ngFor="let stylist of stylistList"
+        value="{{stylist}} "
+        >
+        {{stylist}}</ion-select-option
+        >
+      </ion-select>
+      <ion-input
+        name="date"
+        [(ngModel)]="date"
+        class="customer-info5"
+        type="date"
+        placeholder="Date"
+        >Date</ion-input
+      >
+      <ion-input
+        name="time"
+        [(ngModel)]="time"
+        class="customer-info6"
+        type="time"
+        placeholder="Time"
+        >Time
+      </ion-input>
+    </form>
+    <!-- For Looping, bind to a component -->
+    <!-- *ngFor="let services of servicesLists" -->
+
+    <!-- getting the value -->
+    <!-- {{services?.category}} -->
+    <!-- {{services?.subCategory}} -->
+    <!-- {{services?.cost}} -->
+
+    <button class="add-app" (click)="addAppointment()">Add Appointment</button>
+
+    
+  </ion-card>
+</ion-content>

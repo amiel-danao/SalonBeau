@@ -1,0 +1,31 @@
+<ion-content class="tab1-content">
+
+  <ion-slides [options]="option" class="ion-margin-top">
+    <ion-slide *ngFor="let salon of salonData">
+      <ion-card id="img" button>
+        <img id="size" style="max-width:100%; max-height:100%;" [src]="salon?.logoUrl" />
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+
+  <!-- List of Text Items -->
+
+  <ion-list class="tab1-list">
+    <ion-card-content class="top-rated-header"> Top Rated Salon <ion-icon name="star"></ion-icon>
+    </ion-card-content>
+    <div class="top-rated-content">
+      <ion-item class="top-rated-item" *ngFor="let salon of salonData" [routerLink]="['/saloninter/',salon.id]">
+        <ion-avatar class="top-rated-avatar">
+          <img src="{{salon?.logoUrl}}" />
+        </ion-avatar>
+        <div class="spacer-w-xs"></div>
+        <ion-label class="top-rated-label">
+          {{salon?.salonName}}
+          <br>
+          Rating:
+          {{getAverage(salon?.ratings)}}
+        </ion-label>
+      </ion-item>
+    </div>
+  </ion-list>
+</ion-content>

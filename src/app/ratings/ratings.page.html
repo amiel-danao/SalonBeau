@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar> <ion-back-button slot="start"></ion-back-button>
+    <ion-title>Ratings</ion-title>
+  </ion-toolbar>
+</ion-header>
+<!-- all ratings and feedback -->
+<ion-content>
+  <ion-item lines="none" *ngFor="let review of feedback">
+    <ion-icon name="person" slot="start" class="person-icon"></ion-icon>
+    <ion-label>{{review?.review}}</ion-label>
+    <p slot="end">{{review?.star}} <ion-icon name="star" class="star-icon"></ion-icon></p>
+  </ion-item>
+</ion-content>
+
+ 
+
+

@@ -1,0 +1,56 @@
+img {
+  padding-top: 15%;
+}
+
+.login-btn {
+  
+  margin-top: 5%;
+  margin-left: 15%;
+  width: 70%;
+  height: 35px;
+  font-family: "poppins", sans-serif;
+  font-weight: 600;
+  background-color: #ffb5a7;
+  
+}
+
+.email {
+  width: 90%;
+  height: auto;
+  font-family: "poppins", sans-serif;
+}
+
+.password {
+  width: 90%;
+  height: auto;
+  font-family: "poppins", sans-serif;
+  
+}
+
+.shadow {
+  box-shadow: none;
+}
+
+.forgot {
+  font-family: "poppins", sans-serif;
+  margin-left: 20px;
+}
+
+.signup {
+  font-family: "poppins", sans-serif;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: auto;
+  margin-top: 15px;
+}
+
+ion-icon{
+  vertical-align: center;
+  padding-top: 5%;
+}
+
+.signup-no-account-text{
+  line-height: 0px;
+}

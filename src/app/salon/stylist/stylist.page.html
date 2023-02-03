@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>    <ion-buttons slot="start">
+    <ion-back-button></ion-back-button>
+  </ion-buttons>
+    <ion-title>Adding Stylist</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item class="length">
+    <ion-label class="text-stl2" position="floating">Name of Stylist</ion-label>
+    <ion-input
+      [(ngModel)]="stylist"
+      type="text"
+      placeholder=" "
+    ></ion-input>
+  </ion-item>
+
+  <button class="submit" (click)="addstylist()">Submit</button>
+</ion-content>

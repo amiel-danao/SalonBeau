@@ -1,0 +1,34 @@
+.tab2-content-center{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.salons{
+    width: 90%;
+    height: 80px;
+    background-color: #FF8DC7;
+    border-radius: 10px;
+}
+
+.salon-style{
+    text-align: left;
+    padding: 15px;
+    margin: 10px;
+    width: 100%;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.tab2-card-content{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 80px;
+}
+
+.each-salon{
+    color: white;
+    font-weight: bold;
+}

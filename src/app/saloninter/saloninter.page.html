@@ -1,0 +1,100 @@
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+  rel="stylesheet"
+/>
+<link href="https://rawgit.com/fraserxu/ionic-rating/master/ionic-rating.css" rel="stylesheet">
+<script src="//code.ionicframework.com/nightly/js/ionic.bundle.js"></script>
+<script src="https://rawgit.com/fraserxu/ionic-rating/master/ionic-rating.min.js"></script>
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button
+        class="back-btn"
+        text=""
+        icon="arrow-back"
+      ></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<!-- <div class="container">
+  <p>{{salonData[0]?.salonName}}</p>
+</div> -->
+
+  <ion-content class="salon-inter-content">
+    <div class="container">
+      <p>{{salonData[0]?.salonName}}</p>
+    </div>
+    <ion-slides [options]="option" class="ion-margin-top">
+      <ion-slide>
+        <ion-card id="img" button>
+          <img id="size" [src]="salonData[0]?.logoUrl" />
+        </ion-card>
+      </ion-slide>
+    </ion-slides>
+      <br /><br />
+      <div class="appointment, ratings" *ngIf="userDataArray[0]?.type!='salon'">
+    
+      <div class="salon-inter-content-center">
+        <!-- APPOINTMENT BUTTON -->
+        <ion-item [routerLink]="['/user-appointment',salonData[0]?.id]" class="appointment-button">
+          <ion-label class="appointment-label">Make Appointment</ion-label>
+        </ion-item>
+        </div>
+        <br />
+        <!-- RATING HEADER -->
+        <ion-label class="rating-header">Add Ratings and FeedBack</ion-label>
+        <!-- RATING -->
+        <ion-item lines="none" class="salon-inter-rating">
+          <ion-label slot="start">Rating</ion-label>
+          <ion-select interface="action-sheet"
+          [(ngModel)]="rating"
+          name="rating"
+          Placeholder="0"
+          slot="end">
+          <ion-select-option Value="1">1</ion-select-option>
+          <ion-select-option Value="2">2</ion-select-option>
+          <ion-select-option Value="3">3</ion-select-option>
+          <ion-select-option Value="4">4</ion-select-option>
+          <ion-select-option Value="5">5</ion-select-option>
+  
+          </ion-select>
+        </ion-item>
+        <!-- <ion-item> -->
+          <!-- <ion-select interface="action-sheet"
+          [(ngModel)]="rating"
+          name="rating"
+          Placeholder="rating">
+          <ion-select-option Value="1">1</ion-select-option>
+          <ion-select-option Value="2">2</ion-select-option>
+          <ion-select-option Value="3">3</ion-select-option>
+          <ion-select-option Value="4">4</ion-select-option>
+          <ion-select-option Value="5">5</ion-select-option>
+  
+          </ion-select> -->
+        <!-- </ion-item> -->
+
+        <!-- FEEDBACK -->
+        <ion-item class="salon-inter-feedback">
+          <ion-label class="text-stl2" position="floating">
+            FeedBack
+          </ion-label>
+          <ion-input         
+          [(ngModel)]="feedback"
+          name="feedback"
+          class="float"
+          type="text"
+          placeholder=""> <br/></ion-input>
+        </ion-item>
+
+        <div class="submit-button-container">
+          <!-- SUBMIT BUTTON -->
+          <button (click)="onSubmit()" class="salon-inter-submit-button" >Submit</button>
+        </div>
+        <div class="spacer-h-s"></div>
+      </div>
+        
+  </ion-content>
