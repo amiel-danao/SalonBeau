@@ -65,6 +65,8 @@ core/loader/
 core/www/
 .stencil/
 
+www/
+
 # playwright
 core/test-results/
 core/playwright-report/

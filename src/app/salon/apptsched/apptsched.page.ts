@@ -28,6 +28,7 @@ export class ApptschedPage implements OnInit {
 
  
   getSalonData() {
+    
     // returns the salon of a user; depends on user ID
     this.firestoreService.getSalonDataByUid(this.userId).subscribe((res) => {
       console.log(res);

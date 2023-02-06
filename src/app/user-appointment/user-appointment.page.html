@@ -52,14 +52,22 @@
         {{stylist}}</ion-select-option
         >
       </ion-select>
-      <ion-input
+      <!-- <ion-input
         name="date"
         [(ngModel)]="date"
         class="customer-info5"
         type="date"
         placeholder="Date"
         >Date</ion-input
-      >
+      > -->
+      <ion-input
+        placeholder="Date"
+        name="date"
+        class="customer-info5"
+        [(ngModel)]="mydate1"
+        readonly
+        [liIonic4Datepicker]="datePickerObj"
+      >Date</ion-input>
       <ion-input
         name="time"
         [(ngModel)]="time"

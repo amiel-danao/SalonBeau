@@ -118,7 +118,11 @@ const routes: Routes = [
   {
     path: 'stylist',
     loadChildren: () => import('./salon/stylist/stylist.module').then( m => m.StylistPageModule)
+  },  {
+    path: 'manageschedule',
+    loadChildren: () => import('./salon/manageschedule/manageschedule.module').then( m => m.ManageschedulePageModule)
   },
+
 
  
 ];

@@ -3,6 +3,7 @@ import { addDoc, collection, Firestore, getDocs, query, where } from '@angular/f
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { FirestoreService } from '../services/firestore.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-user-appointment',
@@ -17,6 +18,7 @@ export class UserAppointmentPage implements OnInit {
   public time: string = ''; //same with top
   public date: string = ''; //same with top
   public cost: string = ''; //same with top
+  private dateFormat: string = 'YYYY-MM-DD'
 
   public salonId: string = '';
 
@@ -28,6 +30,10 @@ export class UserAppointmentPage implements OnInit {
 
   userId: any = localStorage.getItem('user') || null;
   public userData: Array<any> = [];
+
+  mydate1 = moment().format(this.dateFormat);
+  disabledDates: Date[] = [];
+  datePickerObj: any = {};
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -97,7 +103,50 @@ export class UserAppointmentPage implements OnInit {
 
     toast.present();
   }
-  ngOnInit() {}
+  async ngOnInit() {
+    
+
+    await this.getBookedDates();
+
+    // EXAMPLE OBJECT
+    this.datePickerObj = {
+      inputDate: new Date(),
+      fromDate: new Date(),
+      // inputDate: new Date('12'), // If you want to set month in date-picker
+      // inputDate: new Date('2018'), // If you want to set year in date-picker
+      // inputDate: new Date('2018-12'), // If you want to set year & month in date-picker
+      // inputDate: new Date('2018-12-01'), // If you want to set date in date-picker
+
+      // fromDate: new Date('2015-12-20'), // need this in order to have toDate
+      // toDate: new Date('2019-12-25'),
+      // showTodayButton: false,
+      // closeOnSelect: true,
+      // disableWeekDays: [],
+      // mondayFirst: true,
+      setLabel: 'Select appointment Date',
+      // todayLabel: 'Today',
+      // closeLabel: 'Close',
+      disabledDates: this.disabledDates,
+      titleLabel: "Select a Date",
+      // monthsList: ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
+      // weeksList: ['S', 'S', 'M', 'T', 'W', 'T', 'F'],
+      // dateFormat: 'MMMM D, YYYY',
+      // clearButton: false,
+      // momentLocale: 'pt-BR',
+      // yearInAscending: true,
+      // btnCloseSetInReverse: false,
+
+      btnProperties: {
+        expand: "block", // "block" | "full"
+        fill: "", // "clear" | "default" | "outline" | "solid"
+        size: "", // "default" | "large" | "small"
+        disabled: "", // boolean (default false)
+        strong: "", // boolean (default false)
+        color: ""
+        // "primary", "secondary", "tertiary", "success", "warning", "danger", "light", "medium", "dark" , and give color in string
+      }
+    };
+  }
 
   async getServices(id: any) {
     // get all services by salon ID
@@ -166,4 +215,22 @@ export class UserAppointmentPage implements OnInit {
         this.presentToast('Customer successfully registered');
       });
   }
+
+  async getBookedDates() {
+    const q = query(collection(this.firestore, "Appointment"), where("salonId", "==", this.salonId));
+  
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      let date = moment(doc.data()['date'], this.dateFormat);
+      let difference = date.diff(moment(), 'hours');
+      console.log(`difference=${difference}`);
+      if (difference >= 1){
+        console.log(doc.id, " => ", doc.data());
+        this.disabledDates.push(date.toDate());
+      }
+    });
+  }
 }
+
+

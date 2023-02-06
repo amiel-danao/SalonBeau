@@ -18,7 +18,7 @@ import { from, Observable, pipe } from 'rxjs';
   providedIn: 'root',
 })
 export class FirestoreService {
-  constructor(private firestore: Firestore, private auth: Auth,) {}
+  constructor(public firestore: Firestore, private auth: Auth,) {}
 
   getSalonData(): Observable<any> {
     const salonDb = collection(this.firestore, 'salon');

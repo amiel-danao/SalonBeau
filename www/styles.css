@@ -1318,5 +1318,34 @@ sub {
 .spacer-w-xl {
   width: 55px;
 }
+.li-ionic4-datePicker .header-md {
+  --ion-color-primary: #f4978e;
+  --ion-color-primary-tint: rgb(214, 153, 153);
+}
+.li-ionic4-datePicker .button {
+  --ion-color-primary: #f4978e;
+  --ion-color-primary-tint: rgb(214, 153, 153);
+}
+.li-ionic4-datePicker .modal-wrapper {
+  height: 75%;
+  max-height: 478px;
+  width: 312px;
+  border-radius: 0px;
+  --ion-color-primary: #f4978e;
+  --ion-color-primary-tint: rgb(214, 153, 153);
+}
+.li-ionic4-datePicker .modal-wrapper ion-button {
+  --ion-color-primary: green;
+  --ion-color-primary-tint: lightgreen;
+}
+@media (min-width: 768px) {
+  .li-ionic4-datePicker .modal-wrapper {
+    width: 350px;
+    height: 65%;
+  }
+}
+li-ionic4-datepicker input[_ngcontent-c1] {
+  border-bottom: unset !important;
+}
 
 /*# sourceMappingURL=styles.css.map*/

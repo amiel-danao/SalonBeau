@@ -19,7 +19,7 @@ import { ToastController } from '@ionic/angular';
 export class AuthenticationService {
   constructor(
     private firestore: Firestore,
-    private auth: Auth,
+    public auth: Auth,
     private router: Router,
     private toast: ToastController
   ) {

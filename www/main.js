@@ -38,39 +38,39 @@ const routes = [
     },
     {
         path: 'signup',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("common"), __webpack_require__.e("src_app_signup_signup_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./signup/signup.module */ 7648)).then((m) => m.SignupPageModule),
+        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_signup_signup_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./signup/signup.module */ 7648)).then((m) => m.SignupPageModule),
     },
     {
         path: 'user-appointment/:id',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("common"), __webpack_require__.e("src_app_user-appointment_user-appointment_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./user-appointment/user-appointment.module */ 8784)).then((m) => m.UserAppointmentPageModule),
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_firestore_service_ts-node_modules_moment_moment_js"), __webpack_require__.e("src_app_user-appointment_user-appointment_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./user-appointment/user-appointment.module */ 8784)).then((m) => m.UserAppointmentPageModule),
     },
     {
         path: 'user-appointment/:id/:service',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("common"), __webpack_require__.e("src_app_user-appointment_user-appointment_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./user-appointment/user-appointment.module */ 8784)).then((m) => m.UserAppointmentPageModule),
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_firestore_service_ts-node_modules_moment_moment_js"), __webpack_require__.e("src_app_user-appointment_user-appointment_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./user-appointment/user-appointment.module */ 8784)).then((m) => m.UserAppointmentPageModule),
     },
     {
         path: 'dashboard',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("common"), __webpack_require__.e("src_app_salon_dashboard_dashboard_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./salon/dashboard/dashboard.module */ 4601)).then((m) => m.DashboardPageModule),
+        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_salon_dashboard_dashboard_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./salon/dashboard/dashboard.module */ 4601)).then((m) => m.DashboardPageModule),
     },
     {
         path: 'user-salon-services',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("common"), __webpack_require__.e("src_app_user-salon-services_user-salon-services_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./user-salon-services/user-salon-services.module */ 3038)).then((m) => m.UserSalonServicesPageModule),
+        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_user-salon-services_user-salon-services_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./user-salon-services/user-salon-services.module */ 3038)).then((m) => m.UserSalonServicesPageModule),
     },
     {
         path: 'saloninter/:id',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("common"), __webpack_require__.e("src_app_saloninter_saloninter_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./saloninter/saloninter.module */ 976)).then((m) => m.SaloninterPageModule),
+        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_saloninter_saloninter_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./saloninter/saloninter.module */ 976)).then((m) => m.SaloninterPageModule),
     },
     {
         path: 'addservice',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("common"), __webpack_require__.e("src_app_salon_addservice_addservice_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./salon/addservice/addservice.module */ 8033)).then((m) => m.AddservicePageModule),
+        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_salon_addservice_addservice_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./salon/addservice/addservice.module */ 8033)).then((m) => m.AddservicePageModule),
     },
     {
         path: 'apptsched',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("common"), __webpack_require__.e("src_app_salon_apptsched_apptsched_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./salon/apptsched/apptsched.module */ 2808)).then((m) => m.ApptschedPageModule),
+        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_salon_apptsched_apptsched_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./salon/apptsched/apptsched.module */ 2808)).then((m) => m.ApptschedPageModule),
     },
     {
         path: 'ratings',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("common"), __webpack_require__.e("src_app_ratings_ratings_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./ratings/ratings.module */ 1136)).then((m) => m.RatingsPageModule),
+        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_ratings_ratings_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./ratings/ratings.module */ 1136)).then((m) => m.RatingsPageModule),
     },
     {
         path: 'salonregis',
@@ -90,7 +90,11 @@ const routes = [
     },
     {
         path: 'stylist',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("common"), __webpack_require__.e("src_app_salon_stylist_stylist_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./salon/stylist/stylist.module */ 3473)).then(m => m.StylistPageModule)
+        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_salon_stylist_stylist_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./salon/stylist/stylist.module */ 3473)).then(m => m.StylistPageModule)
+    },
+    {
+        path: 'manageschedule',
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_firestore_service_ts-node_modules_moment_moment_js"), __webpack_require__.e("src_app_salon_manageschedule_manageschedule_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./salon/manageschedule/manageschedule.module */ 7582)).then(m => m.ManageschedulePageModule)
     },
 ];
 class AppRoutingModule {
@@ -175,7 +179,7 @@ class AppModule {
 }
 AppModule.ɵfac = function AppModule_Factory(t) { return new (t || AppModule)(); };
 AppModule.ɵmod = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdefineNgModule"]({ type: AppModule, bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_1__.AppComponent] });
-AppModule.ɵinj = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdefineInjector"]({ providers: [{ provide: _angular_router__WEBPACK_IMPORTED_MODULE_4__.RouteReuseStrategy, useClass: _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonicRouteStrategy }], imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_6__.BrowserModule,
+AppModule.ɵinj = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdefineInjector"]({ providers: [{ provide: _angular_router__WEBPACK_IMPORTED_MODULE_4__.RouteReuseStrategy, useClass: _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonicRouteStrategy },], imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_6__.BrowserModule,
         _angular_forms__WEBPACK_IMPORTED_MODULE_7__.FormsModule,
         _angular_forms__WEBPACK_IMPORTED_MODULE_7__.ReactiveFormsModule,
         _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonicModule.forRoot(),
