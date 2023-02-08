@@ -6,7 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { ManageschedulePageRoutingModule } from './manageschedule-routing.module';
 
-import { ManageschedulePage } from './manageschedule.page';
+import { ManageSchedulePage } from './manage-schedule-page.component';
 
 @NgModule({
   imports: [
@@ -15,6 +15,6 @@ import { ManageschedulePage } from './manageschedule.page';
     IonicModule,
     ManageschedulePageRoutingModule
   ],
-  declarations: [ManageschedulePage]
+  declarations: [ManageSchedulePage]
 })
 export class ManageschedulePageModule {}

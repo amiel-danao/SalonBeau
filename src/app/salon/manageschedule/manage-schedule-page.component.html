@@ -1,0 +1,117 @@
+<ion-header>
+  <ion-toolbar>    <ion-buttons slot="start">
+    <ion-back-button></ion-back-button>
+  </ion-buttons>
+    <ion-title>Manage Schedule</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+        <ion-col><ion-label>{{daysOfWeek.monday}}</ion-label></ion-col>
+        <ion-col><ion-label>{{ dayScheduleValues[daysOfWeek.monday] }}</ion-label></ion-col>
+  </ion-item>
+  <ion-item>
+    <ion-grid>
+
+      <ion-row>
+        <ion-col><ion-range [name]="daysOfWeek[daysOfWeek.monday]" [ticks]="true" [dualKnobs]="true" [snaps]="true" [min]="0" [max]="48" (ionChange)="onIonChange($event)" [value]="monday"></ion-range></ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-item>
+        <ion-col><ion-label>{{daysOfWeek.tuesday}}</ion-label></ion-col>
+        <ion-col><ion-label>{{ dayScheduleValues[daysOfWeek.tuesday] }}</ion-label></ion-col>
+  </ion-item>
+  <ion-item>
+    <ion-grid>
+
+      <ion-row>
+        <ion-col><ion-range [name]="daysOfWeek[daysOfWeek.tuesday]" [ticks]="true" [dualKnobs]="true" [snaps]="true" [min]="0" [max]="48" (ionChange)="onIonChange($event)" [value]="tuesday"></ion-range></ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-item>
+        <ion-col><ion-label>{{daysOfWeek.wednesday}}</ion-label></ion-col>
+        <ion-col><ion-label>{{ dayScheduleValues[daysOfWeek.wednesday] }}</ion-label></ion-col>
+  </ion-item>
+  <ion-item>
+    <ion-grid>
+
+      <ion-row>
+        <ion-col><ion-range [name]="daysOfWeek[daysOfWeek.wednesday]" [ticks]="true" [dualKnobs]="true" [snaps]="true" [min]="0" [max]="48" (ionChange)="onIonChange($event)" [value]="wednesday"></ion-range></ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-item>
+        <ion-col><ion-label>{{daysOfWeek.thursday}}</ion-label></ion-col>
+        <ion-col><ion-label>{{ dayScheduleValues[daysOfWeek.thursday] }}</ion-label></ion-col>
+  </ion-item>
+  <ion-item>
+    <ion-grid>
+
+      <ion-row>
+        <ion-col><ion-range [name]="daysOfWeek[daysOfWeek.thursday]" [ticks]="true" [dualKnobs]="true" [snaps]="true" [min]="0" [max]="48" (ionChange)="onIonChange($event)" [value]="thursday"></ion-range></ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-item>
+        <ion-col><ion-label>{{daysOfWeek.friday}}</ion-label></ion-col>
+        <ion-col><ion-label>{{ dayScheduleValues[daysOfWeek.friday] }}</ion-label></ion-col>
+  </ion-item>
+  <ion-item>
+    <ion-grid>
+
+      <ion-row>
+        <ion-col><ion-range [name]="daysOfWeek[daysOfWeek.friday]" [ticks]="true" [dualKnobs]="true" [snaps]="true" [min]="0" [max]="48" (ionChange)="onIonChange($event)" [value]="friday"></ion-range></ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-item>
+        <ion-col><ion-label>{{daysOfWeek.saturday}}</ion-label></ion-col>
+        <ion-col><ion-label>{{ dayScheduleValues[daysOfWeek.saturday] }}</ion-label></ion-col>
+  </ion-item>
+  <ion-item>
+    <ion-grid>
+
+      <ion-row>
+        <ion-col><ion-range [name]="daysOfWeek[daysOfWeek.saturday]" [ticks]="true" [dualKnobs]="true" [snaps]="true" [min]="0" [max]="48" (ionChange)="onIonChange($event)" [value]="saturday"></ion-range></ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-item>
+        <ion-col><ion-label>{{daysOfWeek.sunday}}</ion-label></ion-col>
+        <ion-col><ion-label>{{ dayScheduleValues[daysOfWeek.sunday] }}</ion-label></ion-col>
+  </ion-item>
+  <ion-item>
+    <ion-grid>
+
+      <ion-row>
+        <ion-col><ion-range [name]="daysOfWeek[daysOfWeek.sunday]" [ticks]="true" [dualKnobs]="true" [snaps]="true" [min]="0" [max]="48" (ionChange)="onIonChange($event)" [value]="sunday"></ion-range></ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+  </ion-list>
+
+  <ion-button (click)="saveSchedule()" shape="round" expand="full">Save Schedule</ion-button>
+
+</ion-content>

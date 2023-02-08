@@ -1,9 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { addDoc, collection, Firestore, getDocs, query, where } from '@angular/fire/firestore';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
-import { FirestoreService } from '../services/firestore.service';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {addDoc, collection, Firestore, getDocs, query, where} from '@angular/fire/firestore';
+import {ActivatedRoute, Router} from '@angular/router';
+import {LoadingController, ToastController} from '@ionic/angular';
+import {FirestoreService} from '../services/firestore.service';
 import * as moment from 'moment';
+import {doc, getDoc} from 'firebase/firestore';
+import {
+  DaysOfWeek,
+  rangeValueToTimeRange,
+  salonCalendarConverter,
+  timeRangeToRangeValue
+} from '../salon/manageschedule/manage-schedule-page.component';
+import {RangeValue} from '@ionic/core';
 
 @Component({
   selector: 'app-user-appointment',
@@ -11,31 +19,53 @@ import * as moment from 'moment';
   styleUrls: ['./user-appointment.page.scss'],
 })
 export class UserAppointmentPage implements OnInit {
-  public name: string = '';
-  public email: string = '';
-  public services: string = ''; //bind to ion selection or ion select as [(ngModel)]="services"
-  public stylist: string ='';//bind to ion select
-  public time: string = ''; //same with top
-  public date: string = ''; //same with top
-  public cost: string = ''; //same with top
-  private dateFormat: string = 'YYYY-MM-DD'
-
-  public salonId: string = '';
-
-  public servicesList: Array<any> = ["footspa", "rebond"];
+  @ViewChild('dateTimePicker') dateTimePicker;
+  public name = '';
+  public email = '';
+  public services = ''; //bind to ion selection or ion select as [(ngModel)]="services"
+  public stylist ='';//bind to ion select
+  public time = ''; //same with top
+  public date = ''; //same with top
+  public cost = ''; //same with top
+  public salonId = '';
+  public servicesList: Array<any> = ['footspa', 'rebond'];
   salonServiceParams: any;
-
   public stylistList: Array<any> = [];
   salonstylistParams: any;
-
   userId: any = localStorage.getItem('user') || null;
   public userData: Array<any> = [];
-
-  mydate1 = moment().format(this.dateFormat);
-  disabledDates: Date[] = [];
-  datePickerObj: any = {};
+  public datePickerObj: any = {};
+  public daysOfWeek = DaysOfWeek;
+  public dateFormat = 'YYYY-MM-DD';
+  public timeFormat = 'HH:mm A';
+  public loading: HTMLIonLoadingElement;
+  public readonly salonCalendarCollection = 'SalonCalendar';
+  public defaultTimeRange = { lower: 16, upper: 34 };
+  public timeRangeValues: { [key in DaysOfWeek]?: RangeValue } = {
+    [DaysOfWeek.sunday]: this.defaultTimeRange,
+    [DaysOfWeek.monday]: this.defaultTimeRange,
+    [DaysOfWeek.tuesday]: this.defaultTimeRange,
+    [DaysOfWeek.wednesday]: this.defaultTimeRange,
+    [DaysOfWeek.thursday]: this.defaultTimeRange,
+    [DaysOfWeek.friday]: this.defaultTimeRange,
+    [DaysOfWeek.saturday]: this.defaultTimeRange,
+  };
+  public dayOfWeekIndex = {
+    1:DaysOfWeek.monday,
+    2:DaysOfWeek.tuesday,
+    3:DaysOfWeek.wednesday,
+    4:DaysOfWeek.thursday,
+    5:DaysOfWeek.friday,
+    6:DaysOfWeek.saturday,
+    7:DaysOfWeek.sunday
+  };
+  public selectedSalonHours: number[] = [];
+  dayScheduleValues: { [id: string]: string } = {};
+  private disabledDates: { [id: string]: Date } = {};
+  private bookDateHours: { [id: string]: number[] } = {};
 
   constructor(
+    private loadingCtrl: LoadingController,
     private activatedRoute: ActivatedRoute,
     private firestore: Firestore,
     private toast: ToastController,
@@ -43,15 +73,15 @@ export class UserAppointmentPage implements OnInit {
     private firestoreService: FirestoreService
   ) {
     //salon ID from URL params
-    this.salonId = this.activatedRoute.snapshot.params['id'];
-    this.salonServiceParams = this.activatedRoute.snapshot.params['service'];
+    this.salonId = this.activatedRoute.snapshot.params.id;
+    this.salonServiceParams = this.activatedRoute.snapshot.params.service;
 
     console.log(this.salonServiceParams);
     this.services = this.salonServiceParams;
 
     // getting stylist
-    this.salonId = this.activatedRoute.snapshot.params['id'];
-    this.salonstylistParams = this.activatedRoute.snapshot.params['stylist'];
+    this.salonId = this.activatedRoute.snapshot.params.id;
+    this.salonstylistParams = this.activatedRoute.snapshot.params.stylist;
 
     console.log(this.salonstylistParams);
     this.services = this.salonstylistParams;
@@ -71,10 +101,10 @@ export class UserAppointmentPage implements OnInit {
 
       getDocs(userQuery).then((res) => {
         this.userData = [
-          ...res.docs.map((doc: any) => {
-            this.email = doc.data()['email'];
-            this.name = doc.data()['firstName'] + " " + doc.data()['lastName'];
-            return { ...doc.data(), id: doc.id };
+          ...res.docs.map((document: any) => {
+            this.email = document.data().email;
+            this.name = document.data().firstName + ' ' + document.data().lastName;
+            return { ...document.data(), id: document.id };
           }),
         ];
 
@@ -86,8 +116,8 @@ export class UserAppointmentPage implements OnInit {
   }
 
   clear() {
-    this.name = '',
-    this.email ='',
+    this.name = '';
+    this.email ='';
     this.services = '';
     this.stylist='';
     this.time = '';
@@ -97,67 +127,24 @@ export class UserAppointmentPage implements OnInit {
 
   async presentToast(message: string) {
     const toast = await this.toast.create({
-      message: message,
+      message,
       duration: 2000,
     });
 
     toast.present();
   }
   async ngOnInit() {
-    
-
+    this.loading = await this.loadingCtrl.create({
+      message: 'Saving Schedule...',
+      spinner: 'circles',
+    });
+    await this.getSalonSchedule();
     await this.getBookedDates();
-
-    // EXAMPLE OBJECT
-    this.datePickerObj = {
-      inputDate: new Date(),
-      fromDate: new Date(),
-      // inputDate: new Date('12'), // If you want to set month in date-picker
-      // inputDate: new Date('2018'), // If you want to set year in date-picker
-      // inputDate: new Date('2018-12'), // If you want to set year & month in date-picker
-      // inputDate: new Date('2018-12-01'), // If you want to set date in date-picker
-
-      // fromDate: new Date('2015-12-20'), // need this in order to have toDate
-      // toDate: new Date('2019-12-25'),
-      // showTodayButton: false,
-      // closeOnSelect: true,
-      // disableWeekDays: [],
-      // mondayFirst: true,
-      setLabel: 'Select appointment Date',
-      // todayLabel: 'Today',
-      // closeLabel: 'Close',
-      disabledDates: this.disabledDates,
-      titleLabel: "Select a Date",
-      // monthsList: ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
-      // weeksList: ['S', 'S', 'M', 'T', 'W', 'T', 'F'],
-      // dateFormat: 'MMMM D, YYYY',
-      // clearButton: false,
-      // momentLocale: 'pt-BR',
-      // yearInAscending: true,
-      // btnCloseSetInReverse: false,
-
-      btnProperties: {
-        expand: "block", // "block" | "full"
-        fill: "", // "clear" | "default" | "outline" | "solid"
-        size: "", // "default" | "large" | "small"
-        disabled: "", // boolean (default false)
-        strong: "", // boolean (default false)
-        color: ""
-        // "primary", "secondary", "tertiary", "success", "warning", "danger", "light", "medium", "dark" , and give color in string
-      }
-    };
   }
 
   async getServices(id: any) {
-    // get all services by salon ID
-    // this.firestoreService.getServicesBySalonId(id).subscribe((res) => {
-    //   console.log(`Services List: ${res}`);
-    //   // bind this to a selection form or a dropdown
-
-    //   this.servicesList = res;
-    // });
     const services = await this.firestoreService.getServicesBySalonId(id);
-    this.servicesList = services.map(value => `${value['subCategory']} (P${value['cost']})`);
+    this.servicesList = services.map(value => `${value.subCategory} (P${value.cost})`);
   }
 
   async getStylists(id: string) {
@@ -167,13 +154,13 @@ export class UserAppointmentPage implements OnInit {
   addAppointment() {
     // for validation
     if (
-      this.name == '' ||
-      this.email == '' ||
-      this.services == '' ||
-      this.stylist == '' ||
-      this.time == '' ||
+      this.name === '' ||
+      this.email === '' ||
+      this.services === '' ||
+      this.stylist === '' ||
+      this.time === '' ||
       // this.cost == '' ||
-      this.date == ''
+      this.date === ''
     ) {
       this.presentToast('Please fill up all the fields');
 
@@ -181,7 +168,7 @@ export class UserAppointmentPage implements OnInit {
     }
 
     // for actual data coming from user input
-    let data = {
+    const data = {
       name: this.name,
       email: this.email,
       date: this.date,
@@ -192,15 +179,6 @@ export class UserAppointmentPage implements OnInit {
       cost: this.cost,
     };
 
-    // for testing
-    // let data = {
-    // date: new Date().toLocaleDateString(),
-    //   name: 'Test Customer',
-    //   salonId: this.salonId,
-    //   service: 'Haircut (Trim)',
-    //   time: new Date().toLocaleTimeString(),
-    //   cost: '50',
-    // };
     const addAppointment = collection(this.firestore, 'Appointment');
 
     addDoc(addAppointment, data)
@@ -217,20 +195,122 @@ export class UserAppointmentPage implements OnInit {
   }
 
   async getBookedDates() {
-    const q = query(collection(this.firestore, "Appointment"), where("salonId", "==", this.salonId));
-  
+    const q = query(collection(this.firestore, 'Appointment'), where('salonId', '==', this.salonId));
+
     const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
+    querySnapshot.forEach((document) => {
       // doc.data() is never undefined for query doc snapshots
-      let date = moment(doc.data()['date'], this.dateFormat);
-      let difference = date.diff(moment(), 'hours');
+      const date = moment(document.data().date, this.dateFormat);
+      const time = moment(document.data().time, this.timeFormat).format('HH');
+      const difference = date.diff(moment(), 'hours');
+      const dateKey = moment(date).format(this.dateFormat);
+      if (!(dateKey in this.bookDateHours)){
+        const newArray = [];
+        newArray.push(parseInt(time,10));
+        this.bookDateHours[dateKey] = newArray;
+      }
+      else{
+        this.bookDateHours[dateKey].push(parseInt(time, 10));
+      }
       console.log(`difference=${difference}`);
       if (difference >= 1){
-        console.log(doc.id, " => ", doc.data());
-        this.disabledDates.push(date.toDate());
+        console.log(document.id, ' => ', document.data());
+        this.disabledDates[dateKey] = date.toDate();
       }
     });
   }
+  onDateChange(ev: Event) {
+    const selectedValue = (ev as CustomEvent).detail.value;
+    const splitDateTime = moment(selectedValue).format('YYYY-MM-DD HH:mm').split(' ');
+    const selectedDayOfWeek = moment(selectedValue).isoWeekday();
+    const selectedDate = splitDateTime[0];
+    const selectedTime = splitDateTime[1];
+    if (selectedDate !== this.date){
+      this.date = selectedDate;
+      this.time = '';
+      this.selectedSalonHours = [];
+      this.dateTimePicker.reset(null);
+      this.updateHoursSelection(selectedDayOfWeek, selectedDate);
+    }
+    else{
+      this.time = selectedTime;
+    }
+  }
+  updateHoursSelection(selectedDayOfWeekIndex, dateKey){
+    const selectedDayOfWeek = this.dayOfWeekIndex[selectedDayOfWeekIndex];
+    const hourRange = this.dayScheduleValues[selectedDayOfWeek];
+
+    const splitHourRange = hourRange.split('-');
+    const lowerHour = splitHourRange[0];
+    const upperHour = splitHourRange[1];
+    const upperHourFormatted = moment(upperHour, 'hh:mm A').format('HH');
+    const lowerHourFormatted = moment(lowerHour, 'hh:mm A').format('HH');
+    let salonTimeOfThisDay = this.rangeSalonHours(parseInt(lowerHourFormatted, 10), parseInt(upperHourFormatted, 10)+1);
+    const bookedDateHours = this.bookDateHours;
+    if (dateKey in bookedDateHours){
+      salonTimeOfThisDay = salonTimeOfThisDay.filter( ( el ) => !bookedDateHours[dateKey].includes( el ) );
+    }
+    this.selectedSalonHours = salonTimeOfThisDay;
+    if (this.selectedSalonHours.length === 0){
+      this.disabledDates[dateKey] = moment(dateKey, this.dateFormat).toDate();
+      this.dateTimePicker.reset(null);
+    }
+  }
+  isPastDate = (dateString: string) => {
+    const dateMoment = moment(dateString, this.dateFormat);
+    const date = dateMoment.toDate();
+    const isPast = dateMoment.isSameOrAfter(moment(),'days');
+    const isFull = !(dateString in this.disabledDates);
+    return isPast && isFull;
+  };
+  async getSalonSchedule(){
+    this.loading.setAttribute('message', 'loading schedule...');
+    await this.loading.present();
+    if (this.salonId == null){
+      this.setDefaultSalonSchedule();
+      await this.loading.dismiss();
+      return;
+    }
+
+    const ref = doc(this.firestoreService.firestore, this.salonCalendarCollection, this.salonId).withConverter(salonCalendarConverter);
+    const docSnap = await getDoc(ref);
+    if (docSnap.exists()) {
+
+      const salonCalendar = docSnap.data();
+
+      if (salonCalendar.dailySchedule === undefined){
+        this.setDefaultSalonSchedule();
+      }
+      else{
+        this.dayScheduleValues = salonCalendar.dailySchedule;
+      }
+      console.log(salonCalendar.toString());
+    } else {
+      console.log('No such document!');
+      this.setDefaultSalonSchedule();
+    }
+
+    await this.loading.dismiss();
+    const defaultTimeString = rangeValueToTimeRange(this.defaultTimeRange);
+    Object.entries(this.daysOfWeek).forEach(([key, enumValue]) => {
+      if (key in this.dayScheduleValues) {
+        const value = this.dayScheduleValues[key];
+        this.timeRangeValues[enumValue] = timeRangeToRangeValue(value);
+      } else {
+        this.dayScheduleValues[key] = defaultTimeString;
+        this.timeRangeValues[enumValue] = this.defaultTimeRange;
+      }
+    });
+  }
+  setDefaultSalonSchedule() {
+    const defaultTimeRange = rangeValueToTimeRange(this.defaultTimeRange);
+    this.dayScheduleValues[this.daysOfWeek.sunday] = defaultTimeRange;
+    this.dayScheduleValues[this.daysOfWeek.monday] = defaultTimeRange;
+    this.dayScheduleValues[this.daysOfWeek.tuesday] = defaultTimeRange;
+    this.dayScheduleValues[this.daysOfWeek.wednesday] = defaultTimeRange;
+    this.dayScheduleValues[this.daysOfWeek.thursday] = defaultTimeRange;
+    this.dayScheduleValues[this.daysOfWeek.friday] = defaultTimeRange;
+    this.dayScheduleValues[this.daysOfWeek.saturday] = defaultTimeRange;
+  }
+  rangeSalonHours = (start, end) => Array.from({length: (end - start)}, (v, k) => k + start);
 }
-
-
