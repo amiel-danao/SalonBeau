@@ -52,34 +52,21 @@
         {{stylist}}</ion-select-option
         >
       </ion-select>
-<!--      <ion-input-->
-<!--        placeholder="Date"-->
-<!--        name="date"-->
-<!--        class="customer-info5"-->
-<!--        [(ngModel)]="myDate1"-->
-<!--        readonly-->
-<!--        [liIonic4Datepicker]="datePickerObj"-->
-<!--      >Date</ion-input>-->
-<!--      <ion-input-->
-<!--        name="time"-->
-<!--        [(ngModel)]="time"-->
-<!--        class="customer-info6"-->
-<!--        type="time"-->
-<!--        placeholder="Time"-->
-<!--        >Time-->
-<!--      </ion-input>-->
       <ion-datetime #dateTimePicker (ionChange)="onDateChange($event)" [isDateEnabled]="isPastDate" [hourValues]="selectedSalonHours" minuteValues="0,30" hourCycle="h23"></ion-datetime>
     </form>
-    <!-- For Looping, bind to a component -->
-    <!-- *ngFor="let services of servicesLists" -->
-
-    <!-- getting the value -->
-    <!-- {{services?.category}} -->
-    <!-- {{services?.subCategory}} -->
-    <!-- {{services?.cost}} -->
 
     <button class="add-app" (click)="addAppointment()">Add Appointment</button>
 
 
   </ion-card>
+  <ion-text color="primary">
+    <h1>Other Salons:</h1>
+  </ion-text>
+  <ion-slides [options]="option" class="ion-margin-top">
+    <ion-slide *ngFor="let salon of salonData">
+      <ion-card id="img" button [routerLink]="['/saloninter/', salon.id]">
+        <img id="size" style="max-width:100%; max-height:100%;" [src]="salon?.logoUrl" />
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
 </ion-content>

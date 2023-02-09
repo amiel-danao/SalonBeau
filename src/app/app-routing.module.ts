@@ -55,6 +55,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'user-schedules',
+    loadChildren: () =>
+      import('./user-appointment/user-schedules/user-schedules.module').then(
+        (m) => m.UserSchedulePageModule
+      ),
+  },
+  {
     path: 'user-salon-services',
     loadChildren: () =>
       import('./user-salon-services/user-salon-services.module').then(
@@ -118,13 +125,11 @@ const routes: Routes = [
   {
     path: 'stylist',
     loadChildren: () => import('./salon/stylist/stylist.module').then( m => m.StylistPageModule)
-  },  {
+  },
+  {
     path: 'manageschedule',
     loadChildren: () => import('./salon/manageschedule/manageschedule.module').then( m => m.ManageschedulePageModule)
   },
-
-
- 
 ];
 @NgModule({
   imports: [

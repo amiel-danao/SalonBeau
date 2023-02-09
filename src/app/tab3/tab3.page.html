@@ -11,7 +11,7 @@
       <img src="assets/user.png" />
     </ion-avatar>
     <h2>{{userData[0]?.firstName}} {{userData[0]?.lastName}}</h2>
-  
+
     <div class="center">
       <button
         *ngIf="userData.length==0"
@@ -33,6 +33,13 @@
         class="button"
       >
         Start your Salon's journey
+      </button>
+      <button
+        *ngIf="userData.length!=0 && userData[0].type=='customer'"
+        [routerLink]="['/user-schedules']"
+        class="button"
+      >
+      My Appointments
       </button>
       <button
         *ngIf="userData.length!=0 && userData[0].type=='salon'"

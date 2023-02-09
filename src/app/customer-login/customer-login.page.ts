@@ -20,7 +20,7 @@ export class CustomerLoginPage implements OnInit {
   togglePwd(){
     this.showPwd = !this.showPwd;
     this.pwdIcon = this.showPwd ? "eye-off-outline" : "eye-outline";
- 
+
   }
 
   constructor(
@@ -28,9 +28,9 @@ export class CustomerLoginPage implements OnInit {
     private authService: AuthenticationService,
     private toastController: ToastController
 
-    
+
   ) {}
-  
+
 
   // setEmail(e: any){
   //   this.emailLogin = e.target.value;
@@ -52,12 +52,11 @@ export class CustomerLoginPage implements OnInit {
     await toast.present();
   }
 
-  login() {
-    if(this.emailLogin != "" || this.passwordLogin != ""){
+  async login() {
+    if (this.emailLogin !== '' || this.passwordLogin !== '') {
       this.authService.loginUser(this.emailLogin, this.passwordLogin);
-    }
-    else{
-      this.presentToast("Missing Fields");
+    } else {
+      await this.presentToast('Missing Fields');
     }
   }
 

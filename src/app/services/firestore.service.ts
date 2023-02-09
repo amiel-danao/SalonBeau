@@ -18,7 +18,7 @@ import { from, Observable, pipe } from 'rxjs';
   providedIn: 'root',
 })
 export class FirestoreService {
-  constructor(public firestore: Firestore, private auth: Auth,) {}
+  constructor(public firestore: Firestore, public auth: Auth,) {}
 
   getSalonData(): Observable<any> {
     const salonDb = collection(this.firestore, 'salon');
@@ -59,47 +59,45 @@ export class FirestoreService {
 
   async signUp(data: any) {
     const usersInstance = collection(this.firestore, 'customer');
+    try {
+      const createUser = await createUserWithEmailAndPassword(
+        this.auth,
+        data.email,
+        data.password
+      );
 
-    const createUser = await createUserWithEmailAndPassword(
-      this.auth,
-      data.email,
-      data.password
-    );
-
-    let data2 = {
-      ...data,
-      uid: createUser.user.uid,
-      type: 'customer',
-    };
-    return from([
-      updateProfile(createUser.user, {
-        displayName: data.firstName,
-      })
-        .then((res) => {
-          return [
-            addDoc(usersInstance, data2)
-              .then((res) => {
-                return {
-                  status: 'success',
-                  message: 'Customer Registered Succesfully',
-                };
-              })
-              .catch((err) => {
-                return {
-                  status: 'error',
-                  message: err,
-                };
-              }),
-          ];
+      const data2 = {
+        ...data,
+        uid: createUser.user.uid,
+        type: 'customer',
+      };
+      return from([
+        updateProfile(createUser.user, {
+          displayName: data.firstName,
         })
-
-        .catch((err) => {
-          return {
-            status: 'error',
-            message: err,
-          };
-        }),
-    ]);
+          .then((res) => [
+              addDoc(usersInstance, data2)
+                .then((result) => ({
+                    status: 'success',
+                    message: 'Customer Registered Successfully',
+                  }))
+                .catch((err) => ({
+                    status: 'error',
+                    message: err,
+                  })),
+            ])
+          .catch((err) => ({
+              status: 'error',
+              message: err,
+            })),
+      ]);
+    }
+    catch (err) {
+      return {
+        status: 'error',
+        message: err,
+      };
+    }
   }
 
   // get Appointments
@@ -121,6 +119,22 @@ export class FirestoreService {
     const appointmentsDb = collection(this.firestore, 'Appointment');
 
     const salonquery = query(appointmentsDb, where('salonId', '==', id),orderBy('date','desc'));
+
+    return from(
+      getDocs(salonquery).then((res) => {
+        return [
+          ...res.docs.map((doc: any) => {
+            return { ...doc.data(), id: doc.id };
+          }),
+        ];
+      })
+    );
+  }
+
+  getAppointmentsByUser(email: any) {
+    const appointmentsDb = collection(this.firestore, 'Appointment');
+
+    const salonquery = query(appointmentsDb, where('email', '==', email),orderBy('date','desc'));
 
     return from(
       getDocs(salonquery).then((res) => {
@@ -211,7 +225,7 @@ export class FirestoreService {
       };
     });
   }
- 
+
   // get stylist per salon
   async getstylistBySalonId(id: any) {
     const stylist = collection(this.firestore, 'stylist');
@@ -231,9 +245,9 @@ export class FirestoreService {
 
     return snapshot.docs.map(value => value.data()['stylist'] as string[]);
   }
- 
+
   }
-  
-  
-  
+
+
+
 

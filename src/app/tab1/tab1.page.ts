@@ -7,12 +7,6 @@ import { FirestoreService } from '../services/firestore.service';
   styleUrls: ['tab1.page.scss'],
 })
 export class Tab1Page implements OnInit {
-  public salonData: Array<any> = [];
-
-  constructor(
-    private navCtrl: NavController,
-    private firestoreService: FirestoreService
-  ) {}
   option = {
     slidesPerView: 1.5,
     centeredSlides: true,
@@ -20,6 +14,11 @@ export class Tab1Page implements OnInit {
     spaceBetween: 10,
     autoplay: true,
   };
+  public salonData: Array<any> = [];
+  constructor(
+    private navCtrl: NavController,
+    private firestoreService: FirestoreService
+  ) {}
 
   ngOnInit(): void {
     this.getSalonDB();
@@ -48,6 +47,6 @@ export class Tab1Page implements OnInit {
 
     // console.log(sum / rating.length);
 
-    return sum / rating.length;
+    return (sum / rating.length).toFixed(1);
   }
 }

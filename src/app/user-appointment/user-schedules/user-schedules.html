@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>    <ion-buttons slot="start">
+    <ion-back-button></ion-back-button>
+  </ion-buttons>
+    <ion-title>Appointment Schedule</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-label class="list-cust">My Appointments</ion-label>
+  <ion-card class="table-container">
+    <ion-grid [fixed]="true">
+      <ion-row class="font-title">
+        <ion-col>Service</ion-col>
+        <ion-col>Stylist</ion-col>
+        <ion-col>Date</ion-col>
+        <ion-col>Time</ion-col>
+        <ion-col>Progress</ion-col>
+      </ion-row>
+
+      <ion-row *ngFor="let appointment of appointments">
+        <ion-col>{{appointment?.service}}</ion-col>
+        <ion-col>{{appointment?.stylist}}</ion-col>
+        <ion-col>{{appointment?.date}}</ion-col>
+        <ion-col>{{appointment?.time}}</ion-col>
+        <ion-col *ngIf="appointment?.progress !== undefined; else elseBlock">{{appointment?.progress}}</ion-col>
+        <ng-template #elseBlock><ion-col>Pending</ion-col></ng-template>
+      </ion-row>
+
+
+
+    </ion-grid>
+  </ion-card>
+</ion-content>

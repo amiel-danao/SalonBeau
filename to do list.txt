@@ -4,16 +4,16 @@ admin = salon owner
 database -> firebase
 Feb 12 
 
-[]1. salons are able to add their schedule (si salon mismo ang maglalagay kung what time sila available for a certain day)
+[OK]1. salons are able to add their schedule (si salon mismo ang maglalagay kung what time sila available for a certain day)
 
-[]2. calendar feature to let the customers pick the available date and disable the unavailable date (may calendar which makikita ni user yung available date and pag click mo sa date lalabas yung mga available time, and yung mga di available na date and/or full ay di dapat maciclick)
+[OK]2. calendar feature to let the customers pick the available date and disable the unavailable date (may calendar which makikita ni user yung available date and pag click mo sa date lalabas yung mga available time, and yung mga di available na date and/or full ay di dapat maciclick)
 
-[]3. Progress should also be displayed in the dashboard of the user
+[OK]3. Progress should also be displayed in the dashboard of the user
 
-[]4. Rating (should be display to customer end )
+[OK]4. Rating (should be display to customer end )
 
-[]5. showing some salon suggestion while having a booking to other salon
+[OK]5. showing some salon suggestion while having a booking to other salon
 
-[]6. Forgot password not functional
+[OK]6. Forgot password not functional
 
-[]7. Fixing bugs due to some phones is not useful (cannot login)
+[for testing]7. Fixing bugs due to some phones is not useful (cannot login)

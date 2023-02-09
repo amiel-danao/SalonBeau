@@ -25,14 +25,14 @@
           <ion-col>{{appointment?.stylist}}</ion-col>
           <ion-col>{{appointment?.date}}</ion-col>
           <ion-col>{{appointment?.time}}</ion-col>
-          
-          <ion-col ><button class="button" (click)="sendEmailNotif(appointment?.name, appointment?.email)">Accept
+
+          <ion-col ><button class="button" (click)="sendEmailNotif(appointment?.name, appointment?.email, appointment?.id)">Accept
           </button><br><br>
-          <button class="button" (click)="sendEmailNotif2(appointment?.name, appointment?.email)">Reject</button></ion-col>
+          <button class="button" (click)="sendEmailNotif2(appointment?.name, appointment?.email, appointment?.id)">Reject</button></ion-col>
         </ion-row>
 
 
-        
+
       </ion-grid>
     </ion-card>
 </ion-content>

@@ -1,10 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {addDoc, collection, Firestore, getDocs, query, where} from '@angular/fire/firestore';
+import {addDoc, collection, Firestore, getDocs, orderBy, query, where} from '@angular/fire/firestore';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LoadingController, ToastController} from '@ionic/angular';
 import {FirestoreService} from '../services/firestore.service';
 import * as moment from 'moment';
-import {doc, getDoc} from 'firebase/firestore';
+import {doc, getDoc, documentId} from 'firebase/firestore';
 import {
   DaysOfWeek,
   rangeValueToTimeRange,
@@ -28,6 +28,14 @@ export class UserAppointmentPage implements OnInit {
   public date = ''; //same with top
   public cost = ''; //same with top
   public salonId = '';
+  public option = {
+    slidesPerView: 1.5,
+    centeredSlides: true,
+    loop: true,
+    spaceBetween: 10,
+    autoplay: true,
+  };
+  public salonData: Array<any> = [];
   public servicesList: Array<any> = ['footspa', 'rebond'];
   salonServiceParams: any;
   public stylistList: Array<any> = [];
@@ -87,16 +95,35 @@ export class UserAppointmentPage implements OnInit {
     this.services = this.salonstylistParams;
 
     //getting services
-
     this.getServices(this.salonId);
     this.getStylists(this.salonId);
     this.getUserData();
   }
 
+  async getOtherSalons() {
+    const otherSalonsRef = collection(this.firestore, 'salon');
+    const otherSalonsQuery = query(otherSalonsRef, where(documentId(), '!=', this.salonId));
+    const querySnapshot = await getDocs(otherSalonsQuery);
+
+    this.salonData = [
+      ...querySnapshot.docs.map((document: any) => ({ ...document.data(), id: document.id })),
+    ];
+    // querySnapshot.forEach((document) => {
+    //   // doc.data() is never undefined for query doc snapshots
+    //   this.salonData.push()
+    //   console.log(document.id, ' => ', document.data());
+    // });
+    //
+    // this.firestoreService.getSalonData().subscribe((res) => {
+    //   this.salonData = res;
+    //
+    //   console.log(res);
+    // });
+  }
+
   getUserData() {
     if (this.userId) {
       const userData = collection(this.firestore, 'customer');
-
       const userQuery = query(userData, where('uid', '==', this.userId));
 
       getDocs(userQuery).then((res) => {
@@ -131,7 +158,7 @@ export class UserAppointmentPage implements OnInit {
       duration: 2000,
     });
 
-    toast.present();
+    await toast.present();
   }
   async ngOnInit() {
     this.loading = await this.loadingCtrl.create({
@@ -140,6 +167,7 @@ export class UserAppointmentPage implements OnInit {
     });
     await this.getSalonSchedule();
     await this.getBookedDates();
+    await this.getOtherSalons();
   }
 
   async getServices(id: any) {
@@ -177,6 +205,7 @@ export class UserAppointmentPage implements OnInit {
       service: this.services,
       time: this.time,
       cost: this.cost,
+      progress:'pending'
     };
 
     const addAppointment = collection(this.firestore, 'Appointment');

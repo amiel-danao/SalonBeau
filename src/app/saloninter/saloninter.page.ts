@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  arrayUnion,
   collection,
   Firestore,
   getDocs,
-  query,
+  query, updateDoc,
   where,
 } from '@angular/fire/firestore';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastController } from '@ionic/angular';
-import { addDoc } from 'firebase/firestore';
+import {addDoc, doc} from 'firebase/firestore';
 import { FirestoreService } from '../services/firestore.service';
 
 @Component({
@@ -20,7 +21,14 @@ import { FirestoreService } from '../services/firestore.service';
 export class SaloninterPage implements OnInit {
   public salonData: Array<any> = [];
   public servicesSalonData: Array<any> = [];
-  public feedback: string= '';
+  public feedback= '';
+  option = {
+    slidesPerView: 1,
+    centeredSlides: true,
+    loop: true,
+    spaceBetween: 10,
+    autoplay: false,
+  };
   rating: any;
   idParams: any;
   uid: any;
@@ -30,44 +38,35 @@ export class SaloninterPage implements OnInit {
     private firestoreService: FirestoreService,
     private activatedRoute: ActivatedRoute,
     private firestore: Firestore,
-    private toast: ToastController
-  
-    
+    private toastController: ToastController
+
+
   ) {
-    this.idParams = this.activatedRoute.snapshot.params['id'];
+    this.idParams = this.activatedRoute.snapshot.params.id;
     this.uid = localStorage.getItem('user');
     console.log(this.idParams);
   }
-  option = {
-    slidesPerView: 1,
-    centeredSlides: true,
-    loop: true,
-    spaceBetween: 10,
-    autoplay: false,
-  };
   ngOnInit() {
     this.firestoreService.getSpecificSalon(this.idParams).subscribe((res) => {
       this.salonData = res;
-     
+
 
       console.log(this.salonData);
     });
 
     this.getServicesSalon();
     this.getUserData();
-   
+
   }
 
   getUserData(){
     const userData = collection(this.firestore, 'customer');
-    const userSpecific = query(userData, where('uid', "==",this.uid));
- 
+    const userSpecific = query(userData, where('uid', '==',this.uid));
+
 
 getDocs(userSpecific).then((res) => {
   this.userDataArray = [
-    ...res.docs.map((doc: any) => {
-      return { ...doc.data(), id: doc.id };
-    }),
+    ...res.docs.map((document: any) => ({ ...document.data(), id: document.id })),
   ];
 
   console.log(this.userDataArray);
@@ -84,39 +83,49 @@ getDocs(userSpecific).then((res) => {
 
     getDocs(servicesQ).then((res) => {
       this.servicesSalonData = [
-        ...res.docs.map((doc: any) => {
-          return { ...doc.data(), id: doc.id };
-        }),
+        ...res.docs.map((document: any) => ({ ...document.data(), id: document.id })),
       ];
 
       console.log(this.servicesSalonData);
     });
   }
-  onSubmit(){
-   
-let data ={
-  review: this.feedback,
-  salonId: this.idParams,
-  customerID: this.uid,
-  star: this.rating,
-} ;
-console.log(data)
-const addFeedback = collection(this.firestore, 'feedback');
+  async onSubmit() {
 
-addDoc(addFeedback, data)
-.then((res)=>{
-  console.log(res);
-  //this.presenttoast( 'Feedback submitted successfully, Thank you!);
-})
-.catch((err)=>{
-console.log(err, err.code);
-});
+    const data = {
+      review: this.feedback,
+      salonId: this.idParams,
+      customerID: this.uid,
+      star: this.rating,
+    };
 
+    if (data.star === undefined){
+      await this.presentToast('no rating selected!');
+      return;
+    }
+    console.log(data);
+
+    try{
+      const salonRatingRef = doc(this.firestore, 'salon', this.idParams);
+      await updateDoc(salonRatingRef, {
+        ratings: arrayUnion(this.rating)
+      });
+      const addFeedback = collection(this.firestore, 'feedback');
+      await addDoc(addFeedback, data);
+      await this.presentToast('Feedback submitted successfully, Thank you!');
+    } catch (e) {
+      await this.presentToast(e);
+    }
   }
 
-// export interface SalonData{
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 1500,
+      position:'bottom'
+    });
 
-// }
+    await toast.present();
+  }
 }
 export interface SalonData {
   ratings: string[];

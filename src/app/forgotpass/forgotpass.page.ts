@@ -8,25 +8,30 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./forgotpass.page.scss'],
 })
 export class ForgotpassPage implements OnInit {
-  constructor(private auth: Auth,private toast:ToastController) { }
+  public email = '';
+  constructor(private auth: Auth,private toast: ToastController) { }
 
   ngOnInit() { }
   async presentToast(message: string) {
     const toast = await this.toast.create({
-      message: message,
+      message,
       duration: 2000,
     });
 
-    toast.present();
+    await toast.present();
   }
-  updatePassword() {
-    sendPasswordResetEmail(this.auth, '')
+  async updatePassword() {
+    if (this.email.trim().length === 0) {
+      await this.presentToast('Please input your email!');
+      return;
+    }
+
+    sendPasswordResetEmail(this.auth, this.email)
       .then((res: any) => {
-        // toasat code copy paste
-      this.presentToast('Reset link has been sent successfully.')
+        this.presentToast('Reset link has been sent successfully.');
       })
       .catch((err: any) => {
-        console.log(err.code);
+        this.presentToast(err);
       });
   }
 }
