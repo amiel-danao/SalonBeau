@@ -82,14 +82,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "SaloninterPage": () => (/* binding */ SaloninterPage)
 /* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/fire/firestore */ 6466);
-/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! firebase/firestore */ 1866);
+/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! firebase/firestore */ 6009);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _services_firestore_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/firestore.service */ 1343);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ 2816);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ionic/angular */ 3819);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/common */ 6362);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/forms */ 587);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ 2816);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ionic/angular */ 3819);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/common */ 6362);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/forms */ 587);
+
 
 
 
@@ -152,15 +154,14 @@ function SaloninterPage_div_18_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngModel", ctx_r0.feedback);
 } }
 class SaloninterPage {
-    constructor(firestoreService, activatedRoute, firestore, toast) {
+    constructor(firestoreService, activatedRoute, firestore, toastController) {
         this.firestoreService = firestoreService;
         this.activatedRoute = activatedRoute;
         this.firestore = firestore;
-        this.toast = toast;
+        this.toastController = toastController;
         this.salonData = [];
         this.servicesSalonData = [];
         this.feedback = '';
-        this.userDataArray = [];
         this.option = {
             slidesPerView: 1,
             centeredSlides: true,
@@ -168,7 +169,8 @@ class SaloninterPage {
             spaceBetween: 10,
             autoplay: false,
         };
-        this.idParams = this.activatedRoute.snapshot.params['id'];
+        this.userDataArray = [];
+        this.idParams = this.activatedRoute.snapshot.params.id;
         this.uid = localStorage.getItem('user');
         console.log(this.idParams);
     }
@@ -182,12 +184,10 @@ class SaloninterPage {
     }
     getUserData() {
         const userData = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.collection)(this.firestore, 'customer');
-        const userSpecific = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.query)(userData, (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.where)('uid', "==", this.uid));
+        const userSpecific = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.query)(userData, (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.where)('uid', '==', this.uid));
         (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.getDocs)(userSpecific).then((res) => {
             this.userDataArray = [
-                ...res.docs.map((doc) => {
-                    return Object.assign(Object.assign({}, doc.data()), { id: doc.id });
-                }),
+                ...res.docs.map((document) => (Object.assign(Object.assign({}, document.data()), { id: document.id }))),
             ];
             console.log(this.userDataArray);
         });
@@ -197,33 +197,50 @@ class SaloninterPage {
         const servicesQ = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.query)(servicesInstance, (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.where)('salonId', '==', this.idParams));
         (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.getDocs)(servicesQ).then((res) => {
             this.servicesSalonData = [
-                ...res.docs.map((doc) => {
-                    return Object.assign(Object.assign({}, doc.data()), { id: doc.id });
-                }),
+                ...res.docs.map((document) => (Object.assign(Object.assign({}, document.data()), { id: document.id }))),
             ];
             console.log(this.servicesSalonData);
         });
     }
     onSubmit() {
-        let data = {
-            review: this.feedback,
-            salonId: this.idParams,
-            customerID: this.uid,
-            star: this.rating,
-        };
-        console.log(data);
-        const addFeedback = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.collection)(this.firestore, 'feedback');
-        (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_0__.addDoc)(addFeedback, data)
-            .then((res) => {
-            console.log(res);
-            //this.presenttoast( 'Feedback submitted successfully, Thank you!);
-        })
-            .catch((err) => {
-            console.log(err, err.code);
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
+            const data = {
+                review: this.feedback,
+                salonId: this.idParams,
+                customerID: this.uid,
+                star: this.rating,
+            };
+            if (data.star === undefined) {
+                yield this.presentToast('no rating selected!');
+                return;
+            }
+            console.log(data);
+            try {
+                const salonRatingRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_0__.doc)(this.firestore, 'salon', this.idParams);
+                yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.updateDoc)(salonRatingRef, {
+                    ratings: (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.arrayUnion)(this.rating)
+                });
+                const addFeedback = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.collection)(this.firestore, 'feedback');
+                yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_0__.addDoc)(addFeedback, data);
+                yield this.presentToast('Feedback submitted successfully, Thank you!');
+            }
+            catch (e) {
+                yield this.presentToast(e);
+            }
+        });
+    }
+    presentToast(message) {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
+            const toast = yield this.toastController.create({
+                message,
+                duration: 1500,
+                position: 'bottom'
+            });
+            yield toast.present();
         });
     }
 }
-SaloninterPage.ɵfac = function SaloninterPage_Factory(t) { return new (t || SaloninterPage)(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_services_firestore_service__WEBPACK_IMPORTED_MODULE_1__.FirestoreService), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__.ActivatedRoute), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.Firestore), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_ionic_angular__WEBPACK_IMPORTED_MODULE_5__.ToastController)); };
+SaloninterPage.ɵfac = function SaloninterPage_Factory(t) { return new (t || SaloninterPage)(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_services_firestore_service__WEBPACK_IMPORTED_MODULE_1__.FirestoreService), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_5__.ActivatedRoute), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.Firestore), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_ionic_angular__WEBPACK_IMPORTED_MODULE_6__.ToastController)); };
 SaloninterPage.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineComponent"]({ type: SaloninterPage, selectors: [["app-saloninter"]], decls: 19, vars: 4, consts: [["rel", "preconnect", "href", "https://fonts.googleapis.com"], ["rel", "preconnect", "href", "https://fonts.gstatic.com", "crossorigin", ""], ["href", "https://fonts.googleapis.com/css2?family=Poppins&display=swap", "rel", "stylesheet"], ["href", "https://rawgit.com/fraserxu/ionic-rating/master/ionic-rating.css", "rel", "stylesheet"], ["slot", "start"], ["text", "", "icon", "arrow-back", 1, "back-btn"], [1, "salon-inter-content"], [1, "container"], [1, "ion-margin-top", 3, "options"], ["id", "img", "button", ""], ["id", "size", 3, "src"], ["class", "appointment, ratings", 4, "ngIf"], [1, "appointment,", "ratings"], [1, "salon-inter-content-center"], [1, "appointment-button", 3, "routerLink"], [1, "appointment-label"], [1, "rating-header"], ["lines", "none", 1, "salon-inter-rating"], ["interface", "action-sheet", "name", "rating", "Placeholder", "0", "slot", "end", 3, "ngModel", "ngModelChange"], ["Value", "1"], ["Value", "2"], ["Value", "3"], ["Value", "4"], ["Value", "5"], [1, "salon-inter-feedback"], ["position", "floating", 1, "text-stl2"], ["name", "feedback", "type", "text", "placeholder", "", 1, "float", 3, "ngModel", "ngModelChange"], [1, "submit-button-container"], [1, "salon-inter-submit-button", 3, "click"], [1, "spacer-h-s"]], template: function SaloninterPage_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](0, "link", 0)(1, "link", 1)(2, "link", 2)(3, "link", 3);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](4, "ion-header")(5, "ion-toolbar")(6, "ion-buttons", 4);
@@ -247,7 +264,7 @@ SaloninterPage.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_2__[
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("src", ctx.salonData[0] == null ? null : ctx.salonData[0].logoUrl, _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵsanitizeUrl"]);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](3);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngIf", (ctx.userDataArray[0] == null ? null : ctx.userDataArray[0].type) != "salon");
-    } }, dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_6__.NgIf, _angular_forms__WEBPACK_IMPORTED_MODULE_7__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_7__.NgModel, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonBackButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonButtons, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonCard, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonContent, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonHeader, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonInput, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonItem, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonLabel, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonSelect, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonSelectOption, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonSlide, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonSlides, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonToolbar, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.SelectValueAccessor, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.TextValueAccessor, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonBackButtonDelegate, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.RouterLinkDelegate, _angular_router__WEBPACK_IMPORTED_MODULE_4__.RouterLink], styles: [".container[_ngcontent-%COMP%] {\n  width: 100%;\n  height: auto;\n  font-family: \"Poppins\", sans-serif;\n}\n\np[_ngcontent-%COMP%] {\n  text-align: center;\n  padding: 15px;\n  font-size: 24px;\n  font-weight: bold;\n}\n\nion-card-content[_ngcontent-%COMP%] {\n  text-align: left;\n  font-weight: bold;\n  font-size: 16px;\n}\n\n#card-1[_ngcontent-%COMP%] {\n  width: 150px;\n  height: auto;\n  border-radius: 0;\n  border-width: 5px;\n  border-color: #FFB5A7;\n  box-shadow: none;\n}\n\n#card-1[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  height: 98px;\n  width: 200px;\n}\n\n#card-2[_ngcontent-%COMP%] {\n  width: 150px;\n  height: auto;\n  border-radius: 0;\n  border: 5px;\n  border-color: #FFB5A7;\n  box-shadow: none;\n}\n\n#card-2[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  height: 131px;\n  width: 200px;\n}\n\n.services[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n  padding: 5%;\n  padding-bottom: 10%;\n  font-family: \"Poppins\", sans-serif;\n  font-size: 18px;\n  font-weight: bold;\n}\n\n.ion-button[_ngcontent-%COMP%] {\n  width: 350px;\n  background-color: #FFB5A7;\n}\n\n.rfs[_ngcontent-%COMP%] {\n  width: 350px;\n  background-color: #FFB5A7;\n}\n\n.back-btn[_ngcontent-%COMP%] {\n  color: #000;\n}\n\n.rating-block[_ngcontent-%COMP%] {\n  display: inline-block;\n}\n\n.submit[_ngcontent-%COMP%] {\n  margin-top: 10%;\n  margin-left: 20%;\n  width: 85%;\n  height: 35px;\n  border-radius: 20px;\n  font-family: \"poppins\", sans-serif;\n  font-weight: 600;\n  background-color: #F9DCC4;\n}\n\n.salon-inter-content-center[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  width: 95%;\n  height: auto;\n  margin-left: auto;\n  margin-right: auto;\n}\n\n.salon-inter-content[_ngcontent-%COMP%] {\n  --background: #FFDDD2;\n}\n\n.appointment-button[_ngcontent-%COMP%] {\n  width: 100%;\n  --background: #FF8DC7;\n  border-radius: 10px;\n}\n\n.appointment-label[_ngcontent-%COMP%] {\n  color: white;\n  font-weight: bold;\n}\n\n.rating-header[_ngcontent-%COMP%] {\n  color: black;\n  font-weight: bold;\n  margin-left: 15px;\n}\n\n.salon-inter-rating[_ngcontent-%COMP%] {\n  width: 95%;\n  margin-top: 10px;\n  margin-left: auto;\n  margin-right: auto;\n}\n\n.salon-inter-feedback[_ngcontent-%COMP%] {\n  width: 95%;\n  margin-top: 10px;\n  margin-left: auto;\n  margin-right: auto;\n}\n\n.submit-button-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.salon-inter-submit-button[_ngcontent-%COMP%] {\n  width: 85%;\n  height: 50px;\n  background-color: #FF8DC7;\n  border-radius: 30px;\n  margin-top: 50px;\n  font-weight: bold;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNhbG9uaW50ZXIucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUNBO0VBQ0ksV0FBQTtFQUNBLFlBQUE7RUFDQSxrQ0FBQTtBQUFKOztBQUdBO0VBQ0ksa0JBQUE7RUFDQSxhQUFBO0VBQ0EsZUFBQTtFQUNBLGlCQUFBO0FBQUo7O0FBR0E7RUFDSSxnQkFBQTtFQUNBLGlCQUFBO0VBQ0EsZUFBQTtBQUFKOztBQUdBO0VBQ0ksWUFBQTtFQUNBLFlBQUE7RUFDQSxnQkFBQTtFQUNBLGlCQUFBO0VBQ0EscUJBQUE7RUFDQSxnQkFBQTtBQUFKOztBQUdBO0VBQ0ksWUFBQTtFQUNBLFlBQUE7QUFBSjs7QUFHQTtFQUNJLFlBQUE7RUFDQSxZQUFBO0VBQ0EsZ0JBQUE7RUFDQSxXQUFBO0VBQ0EscUJBQUE7RUFDQSxnQkFBQTtBQUFKOztBQUdBO0VBQ0ksYUFBQTtFQUNBLFlBQUE7QUFBSjs7QUFHQTtFQUNJLFdBQUE7RUFDQSxZQUFBO0VBQ0EsV0FBQTtFQUNBLG1CQUFBO0VBQ0Esa0NBQUE7RUFDQSxlQUFBO0VBQ0EsaUJBQUE7QUFBSjs7QUFHQTtFQUNJLFlBQUE7RUFDQSx5QkFBQTtBQUFKOztBQUVBO0VBQ0ksWUFBQTtFQUNBLHlCQUFBO0FBQ0o7O0FBRUE7RUFDSSxXQUFBO0FBQ0o7O0FBQ0E7RUFDSSxxQkFBQTtBQUVKOztBQUFFO0VBQ0UsZUFBQTtFQUNBLGdCQUFBO0VBQ0EsVUFBQTtFQUNBLFlBQUE7RUFDQSxtQkFBQTtFQUNBLGtDQUFBO0VBQ0EsZ0JBQUE7RUFDQSx5QkFBQTtBQUdKOztBQUFBO0VBQ0ksYUFBQTtFQUNBLHNCQUFBO0VBQ0EsbUJBQUE7RUFDQSxVQUFBO0VBQ0EsWUFBQTtFQUNBLGlCQUFBO0VBQ0Esa0JBQUE7QUFHSjs7QUFBQTtFQUNJLHFCQUFBO0FBR0o7O0FBQUE7RUFDSSxXQUFBO0VBQ0EscUJBQUE7RUFDQSxtQkFBQTtBQUdKOztBQUFBO0VBQ0ksWUFBQTtFQUNBLGlCQUFBO0FBR0o7O0FBQUE7RUFDSSxZQUFBO0VBQ0EsaUJBQUE7RUFDQSxpQkFBQTtBQUdKOztBQUFBO0VBQ0ksVUFBQTtFQUNBLGdCQUFBO0VBQ0EsaUJBQUE7RUFDQSxrQkFBQTtBQUdKOztBQUFBO0VBQ0ksVUFBQTtFQUNBLGdCQUFBO0VBQ0EsaUJBQUE7RUFDQSxrQkFBQTtBQUdKOztBQUFBO0VBQ0ksYUFBQTtFQUNBLHNCQUFBO0VBQ0EsbUJBQUE7QUFHSjs7QUFBQTtFQUNJLFVBQUE7RUFDQSxZQUFBO0VBQ0EseUJBQUE7RUFDQSxtQkFBQTtFQUNBLGdCQUFBO0VBQ0EsaUJBQUE7QUFHSiIsImZpbGUiOiJzYWxvbmludGVyLnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIlxyXG4uY29udGFpbmVye1xyXG4gICAgd2lkdGg6IDEwMCU7XHJcbiAgICBoZWlnaHQ6IGF1dG87XHJcbiAgICBmb250LWZhbWlseTogJ1BvcHBpbnMnLCBzYW5zLXNlcmlmO1xyXG59XHJcblxyXG5we1xyXG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xyXG4gICAgcGFkZGluZzogMTVweDtcclxuICAgIGZvbnQtc2l6ZTogMjRweDtcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG59XHJcblxyXG5pb24tY2FyZC1jb250ZW50e1xyXG4gICAgdGV4dC1hbGlnbjogbGVmdDtcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG4gICAgZm9udC1zaXplOiAxNnB4O1xyXG59XHJcblxyXG4jY2FyZC0xe1xyXG4gICAgd2lkdGg6MTUwcHg7XHJcbiAgICBoZWlnaHQ6IGF1dG87XHJcbiAgICBib3JkZXItcmFkaXVzOiAwO1xyXG4gICAgYm9yZGVyLXdpZHRoOiA1cHg7XHJcbiAgICBib3JkZXItY29sb3I6ICNGRkI1QTc7XHJcbiAgICBib3gtc2hhZG93OiBub25lO1xyXG59XHJcblxyXG4jY2FyZC0xIGltZ3tcclxuICAgIGhlaWdodDo5OHB4O1xyXG4gICAgd2lkdGg6IDIwMHB4O1xyXG59XHJcblxyXG4jY2FyZC0ye1xyXG4gICAgd2lkdGg6MTUwcHg7XHJcbiAgICBoZWlnaHQ6IGF1dG87XHJcbiAgICBib3JkZXItcmFkaXVzOiAwO1xyXG4gICAgYm9yZGVyOiA1cHg7XHJcbiAgICBib3JkZXItY29sb3I6ICNGRkI1QTc7XHJcbiAgICBib3gtc2hhZG93OiBub25lO1xyXG59XHJcblxyXG4jY2FyZC0yIGltZ3tcclxuICAgIGhlaWdodDoxMzFweDtcclxuICAgIHdpZHRoOiAyMDBweDtcclxufVxyXG5cclxuLnNlcnZpY2Vze1xyXG4gICAgd2lkdGg6IDEwMCU7XHJcbiAgICBoZWlnaHQ6IDEwMCU7XHJcbiAgICBwYWRkaW5nOiA1JTtcclxuICAgIHBhZGRpbmctYm90dG9tOiAxMCU7XHJcbiAgICBmb250LWZhbWlseTogJ1BvcHBpbnMnLCBzYW5zLXNlcmlmO1xyXG4gICAgZm9udC1zaXplOiAxOHB4O1xyXG4gICAgZm9udC13ZWlnaHQ6IGJvbGQ7XHJcbn1cclxuXHJcbi5pb24tYnV0dG9ue1xyXG4gICAgd2lkdGg6IDM1MHB4O1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogI0ZGQjVBNztcclxufVxyXG4ucmZze1xyXG4gICAgd2lkdGg6IDM1MHB4O1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogI0ZGQjVBNztcclxufVxyXG5cclxuLmJhY2stYnRue1xyXG4gICAgY29sb3I6ICMwMDA7XHJcbn1cclxuLnJhdGluZy1ibG9jayB7XHJcbiAgICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XHJcbiAgfVxyXG4gIC5zdWJtaXR7XHJcbiAgICBtYXJnaW4tdG9wOiAxMCU7XHJcbiAgICBtYXJnaW4tbGVmdDogMjAlO1xyXG4gICAgd2lkdGg6IDg1JTtcclxuICAgIGhlaWdodDogMzVweDtcclxuICAgIGJvcmRlci1yYWRpdXM6IDIwcHg7XHJcbiAgICBmb250LWZhbWlseTogJ3BvcHBpbnMnLCBzYW5zLXNlcmlmO1xyXG4gICAgZm9udC13ZWlnaHQ6IDYwMDtcclxuICAgIGJhY2tncm91bmQtY29sb3I6ICNGOURDQzQ7XHJcbn1cclxuXHJcbi5zYWxvbi1pbnRlci1jb250ZW50LWNlbnRlcntcclxuICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xyXG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuICAgIHdpZHRoOiA5NSU7XHJcbiAgICBoZWlnaHQ6IGF1dG87XHJcbiAgICBtYXJnaW4tbGVmdDogYXV0bztcclxuICAgIG1hcmdpbi1yaWdodDogYXV0bztcclxufVxyXG5cclxuLnNhbG9uLWludGVyLWNvbnRlbnR7XHJcbiAgICAtLWJhY2tncm91bmQ6ICNGRkRERDI7XHJcbn1cclxuXHJcbi5hcHBvaW50bWVudC1idXR0b257XHJcbiAgICB3aWR0aDogMTAwJTtcclxuICAgIC0tYmFja2dyb3VuZDogI0ZGOERDNztcclxuICAgIGJvcmRlci1yYWRpdXM6IDEwcHg7XHJcbn1cclxuXHJcbi5hcHBvaW50bWVudC1sYWJlbHtcclxuICAgIGNvbG9yOiB3aGl0ZTtcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG59XHJcblxyXG4ucmF0aW5nLWhlYWRlcntcclxuICAgIGNvbG9yOiBibGFjaztcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG4gICAgbWFyZ2luLWxlZnQ6IDE1cHg7XHJcbn1cclxuXHJcbi5zYWxvbi1pbnRlci1yYXRpbmd7XHJcbiAgICB3aWR0aDogOTUlO1xyXG4gICAgbWFyZ2luLXRvcDogMTBweDtcclxuICAgIG1hcmdpbi1sZWZ0OiBhdXRvO1xyXG4gICAgbWFyZ2luLXJpZ2h0OiBhdXRvO1xyXG59XHJcblxyXG4uc2Fsb24taW50ZXItZmVlZGJhY2t7XHJcbiAgICB3aWR0aDogOTUlO1xyXG4gICAgbWFyZ2luLXRvcDogMTBweDtcclxuICAgIG1hcmdpbi1sZWZ0OiBhdXRvO1xyXG4gICAgbWFyZ2luLXJpZ2h0OiBhdXRvO1xyXG59XHJcblxyXG4uc3VibWl0LWJ1dHRvbi1jb250YWluZXJ7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XHJcbn1cclxuXHJcbi5zYWxvbi1pbnRlci1zdWJtaXQtYnV0dG9ue1xyXG4gICAgd2lkdGg6IDg1JTtcclxuICAgIGhlaWdodDogNTBweDtcclxuICAgIGJhY2tncm91bmQtY29sb3I6ICNGRjhEQzc7XHJcbiAgICBib3JkZXItcmFkaXVzOiAzMHB4O1xyXG4gICAgbWFyZ2luLXRvcDogNTBweDtcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG59Il19 */"] });
+    } }, dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_7__.NgIf, _angular_forms__WEBPACK_IMPORTED_MODULE_8__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_8__.NgModel, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonBackButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonButtons, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonCard, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonContent, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonHeader, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonInput, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonItem, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonLabel, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonSelect, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonSelectOption, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonSlide, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonSlides, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonToolbar, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.SelectValueAccessor, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.TextValueAccessor, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonBackButtonDelegate, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.RouterLinkDelegate, _angular_router__WEBPACK_IMPORTED_MODULE_5__.RouterLink], styles: [".container[_ngcontent-%COMP%] {\n  width: 100%;\n  height: auto;\n  font-family: \"Poppins\", sans-serif;\n}\n\np[_ngcontent-%COMP%] {\n  text-align: center;\n  padding: 15px;\n  font-size: 24px;\n  font-weight: bold;\n}\n\nion-card-content[_ngcontent-%COMP%] {\n  text-align: left;\n  font-weight: bold;\n  font-size: 16px;\n}\n\n#card-1[_ngcontent-%COMP%] {\n  width: 150px;\n  height: auto;\n  border-radius: 0;\n  border-width: 5px;\n  border-color: #FFB5A7;\n  box-shadow: none;\n}\n\n#card-1[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  height: 98px;\n  width: 200px;\n}\n\n#card-2[_ngcontent-%COMP%] {\n  width: 150px;\n  height: auto;\n  border-radius: 0;\n  border: 5px;\n  border-color: #FFB5A7;\n  box-shadow: none;\n}\n\n#card-2[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\n  height: 131px;\n  width: 200px;\n}\n\n.services[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n  padding: 5%;\n  padding-bottom: 10%;\n  font-family: \"Poppins\", sans-serif;\n  font-size: 18px;\n  font-weight: bold;\n}\n\n.ion-button[_ngcontent-%COMP%] {\n  width: 350px;\n  background-color: #FFB5A7;\n}\n\n.rfs[_ngcontent-%COMP%] {\n  width: 350px;\n  background-color: #FFB5A7;\n}\n\n.back-btn[_ngcontent-%COMP%] {\n  color: #000;\n}\n\n.rating-block[_ngcontent-%COMP%] {\n  display: inline-block;\n}\n\n.submit[_ngcontent-%COMP%] {\n  margin-top: 10%;\n  margin-left: 20%;\n  width: 85%;\n  height: 35px;\n  border-radius: 20px;\n  font-family: \"poppins\", sans-serif;\n  font-weight: 600;\n  background-color: #F9DCC4;\n}\n\n.salon-inter-content-center[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  width: 95%;\n  height: auto;\n  margin-left: auto;\n  margin-right: auto;\n}\n\n.salon-inter-content[_ngcontent-%COMP%] {\n  --background: #FFDDD2;\n}\n\n.appointment-button[_ngcontent-%COMP%] {\n  width: 100%;\n  --background: #FF8DC7;\n  border-radius: 10px;\n}\n\n.appointment-label[_ngcontent-%COMP%] {\n  color: white;\n  font-weight: bold;\n}\n\n.rating-header[_ngcontent-%COMP%] {\n  color: black;\n  font-weight: bold;\n  margin-left: 15px;\n}\n\n.salon-inter-rating[_ngcontent-%COMP%] {\n  width: 95%;\n  margin-top: 10px;\n  margin-left: auto;\n  margin-right: auto;\n}\n\n.salon-inter-feedback[_ngcontent-%COMP%] {\n  width: 95%;\n  margin-top: 10px;\n  margin-left: auto;\n  margin-right: auto;\n}\n\n.submit-button-container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.salon-inter-submit-button[_ngcontent-%COMP%] {\n  width: 85%;\n  height: 50px;\n  background-color: #FF8DC7;\n  border-radius: 30px;\n  margin-top: 50px;\n  font-weight: bold;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNhbG9uaW50ZXIucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUNBO0VBQ0ksV0FBQTtFQUNBLFlBQUE7RUFDQSxrQ0FBQTtBQUFKOztBQUdBO0VBQ0ksa0JBQUE7RUFDQSxhQUFBO0VBQ0EsZUFBQTtFQUNBLGlCQUFBO0FBQUo7O0FBR0E7RUFDSSxnQkFBQTtFQUNBLGlCQUFBO0VBQ0EsZUFBQTtBQUFKOztBQUdBO0VBQ0ksWUFBQTtFQUNBLFlBQUE7RUFDQSxnQkFBQTtFQUNBLGlCQUFBO0VBQ0EscUJBQUE7RUFDQSxnQkFBQTtBQUFKOztBQUdBO0VBQ0ksWUFBQTtFQUNBLFlBQUE7QUFBSjs7QUFHQTtFQUNJLFlBQUE7RUFDQSxZQUFBO0VBQ0EsZ0JBQUE7RUFDQSxXQUFBO0VBQ0EscUJBQUE7RUFDQSxnQkFBQTtBQUFKOztBQUdBO0VBQ0ksYUFBQTtFQUNBLFlBQUE7QUFBSjs7QUFHQTtFQUNJLFdBQUE7RUFDQSxZQUFBO0VBQ0EsV0FBQTtFQUNBLG1CQUFBO0VBQ0Esa0NBQUE7RUFDQSxlQUFBO0VBQ0EsaUJBQUE7QUFBSjs7QUFHQTtFQUNJLFlBQUE7RUFDQSx5QkFBQTtBQUFKOztBQUVBO0VBQ0ksWUFBQTtFQUNBLHlCQUFBO0FBQ0o7O0FBRUE7RUFDSSxXQUFBO0FBQ0o7O0FBQ0E7RUFDSSxxQkFBQTtBQUVKOztBQUFFO0VBQ0UsZUFBQTtFQUNBLGdCQUFBO0VBQ0EsVUFBQTtFQUNBLFlBQUE7RUFDQSxtQkFBQTtFQUNBLGtDQUFBO0VBQ0EsZ0JBQUE7RUFDQSx5QkFBQTtBQUdKOztBQUFBO0VBQ0ksYUFBQTtFQUNBLHNCQUFBO0VBQ0EsbUJBQUE7RUFDQSxVQUFBO0VBQ0EsWUFBQTtFQUNBLGlCQUFBO0VBQ0Esa0JBQUE7QUFHSjs7QUFBQTtFQUNJLHFCQUFBO0FBR0o7O0FBQUE7RUFDSSxXQUFBO0VBQ0EscUJBQUE7RUFDQSxtQkFBQTtBQUdKOztBQUFBO0VBQ0ksWUFBQTtFQUNBLGlCQUFBO0FBR0o7O0FBQUE7RUFDSSxZQUFBO0VBQ0EsaUJBQUE7RUFDQSxpQkFBQTtBQUdKOztBQUFBO0VBQ0ksVUFBQTtFQUNBLGdCQUFBO0VBQ0EsaUJBQUE7RUFDQSxrQkFBQTtBQUdKOztBQUFBO0VBQ0ksVUFBQTtFQUNBLGdCQUFBO0VBQ0EsaUJBQUE7RUFDQSxrQkFBQTtBQUdKOztBQUFBO0VBQ0ksYUFBQTtFQUNBLHNCQUFBO0VBQ0EsbUJBQUE7QUFHSjs7QUFBQTtFQUNJLFVBQUE7RUFDQSxZQUFBO0VBQ0EseUJBQUE7RUFDQSxtQkFBQTtFQUNBLGdCQUFBO0VBQ0EsaUJBQUE7QUFHSiIsImZpbGUiOiJzYWxvbmludGVyLnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIlxyXG4uY29udGFpbmVye1xyXG4gICAgd2lkdGg6IDEwMCU7XHJcbiAgICBoZWlnaHQ6IGF1dG87XHJcbiAgICBmb250LWZhbWlseTogJ1BvcHBpbnMnLCBzYW5zLXNlcmlmO1xyXG59XHJcblxyXG5we1xyXG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xyXG4gICAgcGFkZGluZzogMTVweDtcclxuICAgIGZvbnQtc2l6ZTogMjRweDtcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG59XHJcblxyXG5pb24tY2FyZC1jb250ZW50e1xyXG4gICAgdGV4dC1hbGlnbjogbGVmdDtcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG4gICAgZm9udC1zaXplOiAxNnB4O1xyXG59XHJcblxyXG4jY2FyZC0xe1xyXG4gICAgd2lkdGg6MTUwcHg7XHJcbiAgICBoZWlnaHQ6IGF1dG87XHJcbiAgICBib3JkZXItcmFkaXVzOiAwO1xyXG4gICAgYm9yZGVyLXdpZHRoOiA1cHg7XHJcbiAgICBib3JkZXItY29sb3I6ICNGRkI1QTc7XHJcbiAgICBib3gtc2hhZG93OiBub25lO1xyXG59XHJcblxyXG4jY2FyZC0xIGltZ3tcclxuICAgIGhlaWdodDo5OHB4O1xyXG4gICAgd2lkdGg6IDIwMHB4O1xyXG59XHJcblxyXG4jY2FyZC0ye1xyXG4gICAgd2lkdGg6MTUwcHg7XHJcbiAgICBoZWlnaHQ6IGF1dG87XHJcbiAgICBib3JkZXItcmFkaXVzOiAwO1xyXG4gICAgYm9yZGVyOiA1cHg7XHJcbiAgICBib3JkZXItY29sb3I6ICNGRkI1QTc7XHJcbiAgICBib3gtc2hhZG93OiBub25lO1xyXG59XHJcblxyXG4jY2FyZC0yIGltZ3tcclxuICAgIGhlaWdodDoxMzFweDtcclxuICAgIHdpZHRoOiAyMDBweDtcclxufVxyXG5cclxuLnNlcnZpY2Vze1xyXG4gICAgd2lkdGg6IDEwMCU7XHJcbiAgICBoZWlnaHQ6IDEwMCU7XHJcbiAgICBwYWRkaW5nOiA1JTtcclxuICAgIHBhZGRpbmctYm90dG9tOiAxMCU7XHJcbiAgICBmb250LWZhbWlseTogJ1BvcHBpbnMnLCBzYW5zLXNlcmlmO1xyXG4gICAgZm9udC1zaXplOiAxOHB4O1xyXG4gICAgZm9udC13ZWlnaHQ6IGJvbGQ7XHJcbn1cclxuXHJcbi5pb24tYnV0dG9ue1xyXG4gICAgd2lkdGg6IDM1MHB4O1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogI0ZGQjVBNztcclxufVxyXG4ucmZze1xyXG4gICAgd2lkdGg6IDM1MHB4O1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogI0ZGQjVBNztcclxufVxyXG5cclxuLmJhY2stYnRue1xyXG4gICAgY29sb3I6ICMwMDA7XHJcbn1cclxuLnJhdGluZy1ibG9jayB7XHJcbiAgICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XHJcbiAgfVxyXG4gIC5zdWJtaXR7XHJcbiAgICBtYXJnaW4tdG9wOiAxMCU7XHJcbiAgICBtYXJnaW4tbGVmdDogMjAlO1xyXG4gICAgd2lkdGg6IDg1JTtcclxuICAgIGhlaWdodDogMzVweDtcclxuICAgIGJvcmRlci1yYWRpdXM6IDIwcHg7XHJcbiAgICBmb250LWZhbWlseTogJ3BvcHBpbnMnLCBzYW5zLXNlcmlmO1xyXG4gICAgZm9udC13ZWlnaHQ6IDYwMDtcclxuICAgIGJhY2tncm91bmQtY29sb3I6ICNGOURDQzQ7XHJcbn1cclxuXHJcbi5zYWxvbi1pbnRlci1jb250ZW50LWNlbnRlcntcclxuICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xyXG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuICAgIHdpZHRoOiA5NSU7XHJcbiAgICBoZWlnaHQ6IGF1dG87XHJcbiAgICBtYXJnaW4tbGVmdDogYXV0bztcclxuICAgIG1hcmdpbi1yaWdodDogYXV0bztcclxufVxyXG5cclxuLnNhbG9uLWludGVyLWNvbnRlbnR7XHJcbiAgICAtLWJhY2tncm91bmQ6ICNGRkRERDI7XHJcbn1cclxuXHJcbi5hcHBvaW50bWVudC1idXR0b257XHJcbiAgICB3aWR0aDogMTAwJTtcclxuICAgIC0tYmFja2dyb3VuZDogI0ZGOERDNztcclxuICAgIGJvcmRlci1yYWRpdXM6IDEwcHg7XHJcbn1cclxuXHJcbi5hcHBvaW50bWVudC1sYWJlbHtcclxuICAgIGNvbG9yOiB3aGl0ZTtcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG59XHJcblxyXG4ucmF0aW5nLWhlYWRlcntcclxuICAgIGNvbG9yOiBibGFjaztcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG4gICAgbWFyZ2luLWxlZnQ6IDE1cHg7XHJcbn1cclxuXHJcbi5zYWxvbi1pbnRlci1yYXRpbmd7XHJcbiAgICB3aWR0aDogOTUlO1xyXG4gICAgbWFyZ2luLXRvcDogMTBweDtcclxuICAgIG1hcmdpbi1sZWZ0OiBhdXRvO1xyXG4gICAgbWFyZ2luLXJpZ2h0OiBhdXRvO1xyXG59XHJcblxyXG4uc2Fsb24taW50ZXItZmVlZGJhY2t7XHJcbiAgICB3aWR0aDogOTUlO1xyXG4gICAgbWFyZ2luLXRvcDogMTBweDtcclxuICAgIG1hcmdpbi1sZWZ0OiBhdXRvO1xyXG4gICAgbWFyZ2luLXJpZ2h0OiBhdXRvO1xyXG59XHJcblxyXG4uc3VibWl0LWJ1dHRvbi1jb250YWluZXJ7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XHJcbn1cclxuXHJcbi5zYWxvbi1pbnRlci1zdWJtaXQtYnV0dG9ue1xyXG4gICAgd2lkdGg6IDg1JTtcclxuICAgIGhlaWdodDogNTBweDtcclxuICAgIGJhY2tncm91bmQtY29sb3I6ICNGRjhEQzc7XHJcbiAgICBib3JkZXItcmFkaXVzOiAzMHB4O1xyXG4gICAgbWFyZ2luLXRvcDogNTBweDtcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG59Il19 */"] });
 
 
 /***/ }),
@@ -265,7 +282,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _angular_fire_auth__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/fire/auth */ 1577);
 /* harmony import */ var _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/fire/firestore */ 6466);
-/* harmony import */ var firebase_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! firebase/auth */ 3628);
+/* harmony import */ var firebase_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! firebase/auth */ 6818);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ 4383);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 3184);
 
@@ -311,36 +328,36 @@ class FirestoreService {
     signUp(data) {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__awaiter)(this, void 0, void 0, function* () {
             const usersInstance = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.collection)(this.firestore, 'customer');
-            const createUser = yield (0,firebase_auth__WEBPACK_IMPORTED_MODULE_0__.createUserWithEmailAndPassword)(this.auth, data.email, data.password);
-            let data2 = Object.assign(Object.assign({}, data), { uid: createUser.user.uid, type: 'customer' });
-            return (0,rxjs__WEBPACK_IMPORTED_MODULE_2__.from)([
-                (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_4__.updateProfile)(createUser.user, {
-                    displayName: data.firstName,
-                })
-                    .then((res) => {
-                    return [
+            try {
+                const createUser = yield (0,firebase_auth__WEBPACK_IMPORTED_MODULE_0__.createUserWithEmailAndPassword)(this.auth, data.email, data.password);
+                const data2 = Object.assign(Object.assign({}, data), { uid: createUser.user.uid, type: 'customer' });
+                return (0,rxjs__WEBPACK_IMPORTED_MODULE_2__.from)([
+                    (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_4__.updateProfile)(createUser.user, {
+                        displayName: data.firstName,
+                    })
+                        .then((res) => [
                         (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.addDoc)(usersInstance, data2)
-                            .then((res) => {
-                            return {
-                                status: 'success',
-                                message: 'Customer Registered Succesfully',
-                            };
-                        })
-                            .catch((err) => {
-                            return {
-                                status: 'error',
-                                message: err,
-                            };
-                        }),
-                    ];
-                })
-                    .catch((err) => {
-                    return {
+                            .then((result) => ({
+                            status: 'success',
+                            message: 'Customer Registered Successfully',
+                        }))
+                            .catch((err) => ({
+                            status: 'error',
+                            message: err,
+                        })),
+                    ])
+                        .catch((err) => ({
                         status: 'error',
                         message: err,
-                    };
-                }),
-            ]);
+                    })),
+                ]);
+            }
+            catch (err) {
+                return {
+                    status: 'error',
+                    message: err,
+                };
+            }
         });
     }
     // get Appointments
@@ -357,6 +374,17 @@ class FirestoreService {
     getAppointmentsBySalon(id) {
         const appointmentsDb = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.collection)(this.firestore, 'Appointment');
         const salonquery = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.query)(appointmentsDb, (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.where)('salonId', '==', id), (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.orderBy)('date', 'desc'));
+        return (0,rxjs__WEBPACK_IMPORTED_MODULE_2__.from)((0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.getDocs)(salonquery).then((res) => {
+            return [
+                ...res.docs.map((doc) => {
+                    return Object.assign(Object.assign({}, doc.data()), { id: doc.id });
+                }),
+            ];
+        }));
+    }
+    getAppointmentsByUser(email) {
+        const appointmentsDb = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.collection)(this.firestore, 'Appointment');
+        const salonquery = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.query)(appointmentsDb, (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.where)('email', '==', email), (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.orderBy)('date', 'desc'));
         return (0,rxjs__WEBPACK_IMPORTED_MODULE_2__.from)((0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.getDocs)(salonquery).then((res) => {
             return [
                 ...res.docs.map((doc) => {

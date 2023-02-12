@@ -58,21 +58,21 @@ export class AuthenticationService {
             }
           })
           .catch((err: any) => {
-            this.printLoginError(err);
+            this.presentToast(err);
           });
       } else if (userData[0].type === 'salon') {
         signInWithEmailAndPassword(this.auth, email, password)
-          .then((res: any) => {
-            if (res) {
-              localStorage.setItem('token', res.user.accessToken);
-              localStorage.setItem('user', res.user.uid);
+          .then((resultSalon: any) => {
+            if (resultSalon) {
+              localStorage.setItem('token', resultSalon.user.accessToken);
+              localStorage.setItem('user', resultSalon.user.uid);
 
               window.location.href = '/dashboard';
               // this.router.navigate(['/dashboard']);
             }
           })
           .catch((err: any) => {
-            this.printLoginError(err);
+            this.presentToast(err);
           });
       } else {
         this.presentToast('User not found');

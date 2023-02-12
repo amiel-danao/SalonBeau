@@ -5,6 +5,7 @@ import {LoadingController} from '@ionic/angular';
 import {collection, doc, getDoc, getDocs, query, setDoc, where} from 'firebase/firestore';
 import {AuthenticationService} from 'src/app/services/authentication.service';
 import {FirestoreService} from 'src/app/services/firestore.service';
+import {Firestore} from '@angular/fire/firestore';
 
 export enum DaysOfWeek {sunday = 'sunday',
                   monday = 'monday',
@@ -24,7 +25,6 @@ export enum DaysOfWeek {sunday = 'sunday',
 export class ManageSchedulePage implements OnInit {
 
   defaultTimeRange = { lower: 16, upper: 34 };
-  // timeRangeValues: { [id: DaysOfWeek] : RangeValue; } = {};
   timeRangeValues: { [key in DaysOfWeek]?: RangeValue } = {
     [DaysOfWeek.sunday]: this.defaultTimeRange,
     [DaysOfWeek.monday]: this.defaultTimeRange,
@@ -37,7 +37,6 @@ export class ManageSchedulePage implements OnInit {
   dayScheduleValues: { [id: string]: string } = {};
   loading: HTMLIonLoadingElement;
   public daysOfWeek = DaysOfWeek;
-  readonly salonCalendarCollection = 'SalonCalendar';
   private salonId: string;
   constructor(private loadingCtrl: LoadingController, private firestoreService: FirestoreService,
               public authService: AuthenticationService) { }
@@ -70,11 +69,36 @@ export class ManageSchedulePage implements OnInit {
   }
   async ngOnInit() {
     this.loading = await this.loadingCtrl.create({
-      message: 'Saving Schedule...',
+      message: 'loading schedule...',
       spinner: 'circles',
     });
     this.salonId = await this.getSalonId();
-    await this.getSalonSchedule();
+
+    if (this.salonId == null){
+      setDefaultSalonSchedule(this.dayScheduleValues, this.defaultTimeRange);
+    }
+    else {
+      await this.fetchSalonSchedule();
+    }
+  }
+  async fetchSalonSchedule() {
+    await this.loading.present();
+
+    await getSalonSchedule(this.salonId, this.firestoreService.firestore,
+      ()=> setDefaultSalonSchedule(this.dayScheduleValues, this.defaultTimeRange),
+      (salonCalendar) => this.dayScheduleValues = salonCalendar.dailySchedule);
+    await this.loading.dismiss();
+    const defaultTimeString = rangeValueToTimeRange(this.defaultTimeRange);
+    Object.entries(this.daysOfWeek).forEach(([key, enumValue]) => {
+      if (key in this.dayScheduleValues) {
+        const value = this.dayScheduleValues[key];
+        const rangeValue = timeRangeToRangeValue(value);
+        this.timeRangeValues[enumValue] = rangeValue;
+      } else {
+        this.dayScheduleValues[key] = defaultTimeString;
+        this.timeRangeValues[enumValue] = this.defaultTimeRange;
+      }
+    });
   }
 
   onIonChange(ev: Event) {
@@ -104,7 +128,7 @@ export class ManageSchedulePage implements OnInit {
     this.loading.setAttribute('message', 'Saving Schedule...');
      await this.loading.present();
 
-    const salonCalendarRef = doc(this.firestoreService.firestore, this.salonCalendarCollection, this.salonId);
+    const salonCalendarRef = doc(this.firestoreService.firestore, 'SalonCalendar', this.salonId);
 
     await setDoc(salonCalendarRef, {
       dailySchedule: this.dayScheduleValues
@@ -112,57 +136,40 @@ export class ManageSchedulePage implements OnInit {
 
     await this.loading.dismiss();
   }
-  async getSalonSchedule(){
-    this.loading.setAttribute('message', 'loading schedule...');
-    await this.loading.present();
-    if (this.salonId == null){
-      this.setDefaultSalonSchedule();
-      await this.loading.dismiss();
-      return;
-    }
 
-    const ref = doc(this.firestoreService.firestore, this.salonCalendarCollection, this.salonId).withConverter(salonCalendarConverter);
-    const docSnap = await getDoc(ref);
-    if (docSnap.exists()) {
 
-      const salonCalendar = docSnap.data();
-
-      if (salonCalendar.dailySchedule === undefined){
-        this.setDefaultSalonSchedule();
-      }
-      else{
-        this.dayScheduleValues = salonCalendar.dailySchedule;
-      }
-      console.log(salonCalendar.toString());
-    } else {
-      console.log('No such document!');
-      this.setDefaultSalonSchedule();
-    }
-    await this.loading.dismiss();
-    const defaultTimeString = rangeValueToTimeRange(this.defaultTimeRange);
-    Object.entries(this.daysOfWeek).forEach(([key, enumValue]) => {
-      if (key in this.dayScheduleValues) {
-        const value = this.dayScheduleValues[key];
-        const rangeValue = timeRangeToRangeValue(value);
-        this.timeRangeValues[enumValue] = rangeValue;
-      } else {
-        this.dayScheduleValues[key] = defaultTimeString;
-        this.timeRangeValues[enumValue] = this.defaultTimeRange;
-      }
-    });
-  }
-  setDefaultSalonSchedule() {
-    this.dayScheduleValues[this.daysOfWeek.sunday] = rangeValueToTimeRange(this.defaultTimeRange);
-    this.dayScheduleValues[this.daysOfWeek.monday] = rangeValueToTimeRange(this.defaultTimeRange);
-    this.dayScheduleValues[this.daysOfWeek.tuesday] = rangeValueToTimeRange(this.defaultTimeRange);
-    this.dayScheduleValues[this.daysOfWeek.wednesday] = rangeValueToTimeRange(this.defaultTimeRange);
-    this.dayScheduleValues[this.daysOfWeek.thursday] = rangeValueToTimeRange(this.defaultTimeRange);
-    this.dayScheduleValues[this.daysOfWeek.friday] = rangeValueToTimeRange(this.defaultTimeRange);
-    this.dayScheduleValues[this.daysOfWeek.saturday] = rangeValueToTimeRange(this.defaultTimeRange);
-  }
 
 
 }
+
+export const setDefaultSalonSchedule = (dayScheduleValues: {[p: string]: string}, defaultTimeRange: {lower: number; upper: number})=> {
+  dayScheduleValues[DaysOfWeek.sunday] = rangeValueToTimeRange(defaultTimeRange);
+  dayScheduleValues[DaysOfWeek.monday] = rangeValueToTimeRange(defaultTimeRange);
+  dayScheduleValues[DaysOfWeek.tuesday] = rangeValueToTimeRange(defaultTimeRange);
+  dayScheduleValues[DaysOfWeek.wednesday] = rangeValueToTimeRange(defaultTimeRange);
+  dayScheduleValues[DaysOfWeek.thursday] = rangeValueToTimeRange(defaultTimeRange);
+  dayScheduleValues[DaysOfWeek.friday] = rangeValueToTimeRange(defaultTimeRange);
+  dayScheduleValues[DaysOfWeek.saturday] = rangeValueToTimeRange(defaultTimeRange);
+};
+export const getSalonSchedule = async (salonId: string, firestore: Firestore,
+                                       errorCallback: () => void, successCallback: (salonCalendar) => void) => {
+  const ref = doc(firestore, 'SalonCalendar', salonId).withConverter(salonCalendarConverter);
+  const docSnap = await getDoc(ref);
+  if (docSnap.exists()) {
+    const salonCalendar = docSnap.data();
+
+    if (salonCalendar.dailySchedule === undefined){
+      errorCallback();
+    }
+    else{
+      successCallback(salonCalendar);
+    }
+    console.log(salonCalendar.toString());
+  } else {
+    console.log('No such document!');
+    errorCallback();
+  }
+};
 
 
 export const salonCalendarConverter = {

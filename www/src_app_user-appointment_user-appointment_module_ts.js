@@ -86,17 +86,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "UserAppointmentPage": () => (/* binding */ UserAppointmentPage)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ 4929);
-/* harmony import */ var _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/fire/firestore */ 6466);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tslib */ 4929);
+/* harmony import */ var _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/fire/firestore */ 6466);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ 6908);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ 2816);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ionic/angular */ 3819);
-/* harmony import */ var _services_firestore_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/firestore.service */ 1343);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/common */ 6362);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/forms */ 587);
-/* harmony import */ var _logisticinfotech_ionic4_datepicker__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @logisticinfotech/ionic4-datepicker */ 9237);
+/* harmony import */ var firebase_firestore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! firebase/firestore */ 6009);
+/* harmony import */ var _salon_manageschedule_manage_schedule_page_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../salon/manageschedule/manage-schedule-page.component */ 3301);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ionic/angular */ 3819);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/router */ 2816);
+/* harmony import */ var _services_firestore_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/firestore.service */ 1343);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/common */ 6362);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/forms */ 587);
 
 
 
@@ -108,28 +109,43 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+const _c0 = ["dateTimePicker"];
 function UserAppointmentPage_ion_select_option_14_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "ion-select-option", 10);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](0, "ion-select-option", 13);
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
 } if (rf & 2) {
-    const services_r2 = ctx.$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpropertyInterpolate"]("value", services_r2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtextInterpolate1"](" ", services_r2, "");
+    const services_r4 = ctx.$implicit;
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpropertyInterpolate"]("value", services_r4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtextInterpolate1"](" ", services_r4, "");
 } }
 function UserAppointmentPage_ion_select_option_16_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "ion-select-option", 10);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](0, "ion-select-option", 13);
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
 } if (rf & 2) {
-    const stylist_r3 = ctx.$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpropertyInterpolate1"]("value", "", stylist_r3, " ");
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtextInterpolate1"](" ", stylist_r3, "");
+    const stylist_r5 = ctx.$implicit;
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpropertyInterpolate1"]("value", "", stylist_r5, " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtextInterpolate1"](" ", stylist_r5, "");
+} }
+const _c1 = function (a1) { return ["/saloninter/", a1]; };
+function UserAppointmentPage_ion_slide_25_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](0, "ion-slide")(1, "ion-card", 14);
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelement"](2, "img", 15);
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]()();
+} if (rf & 2) {
+    const salon_r6 = ctx.$implicit;
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("routerLink", _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpureFunction1"](2, _c1, salon_r6.id));
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("src", salon_r6 == null ? null : salon_r6.logoUrl, _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵsanitizeUrl"]);
 } }
 class UserAppointmentPage {
-    constructor(activatedRoute, firestore, toast, router, firestoreService) {
+    constructor(loadingCtrl, activatedRoute, firestore, toast, router, firestoreService) {
+        this.loadingCtrl = loadingCtrl;
         this.activatedRoute = activatedRoute;
         this.firestore = firestore;
         this.toast = toast;
@@ -142,23 +158,63 @@ class UserAppointmentPage {
         this.time = ''; //same with top
         this.date = ''; //same with top
         this.cost = ''; //same with top
-        this.dateFormat = 'YYYY-MM-DD';
         this.salonId = '';
-        this.servicesList = ["footspa", "rebond"];
+        this.option = {
+            slidesPerView: 1.5,
+            centeredSlides: true,
+            loop: true,
+            spaceBetween: 10,
+            autoplay: true,
+        };
+        this.salonData = [];
+        this.servicesList = ['footspa', 'rebond'];
         this.stylistList = [];
         this.userId = localStorage.getItem('user') || null;
         this.userData = [];
-        this.mydate1 = moment__WEBPACK_IMPORTED_MODULE_0__().format(this.dateFormat);
-        this.disabledDates = [];
         this.datePickerObj = {};
+        this.daysOfWeek = _salon_manageschedule_manage_schedule_page_component__WEBPACK_IMPORTED_MODULE_2__.DaysOfWeek;
+        this.dateFormat = 'YYYY-MM-DD';
+        this.timeFormat = 'HH:mm A';
+        this.salonCalendarCollection = 'SalonCalendar';
+        this.defaultTimeRange = { lower: 16, upper: 34 };
+        this.timeRangeValues = {
+            [_salon_manageschedule_manage_schedule_page_component__WEBPACK_IMPORTED_MODULE_2__.DaysOfWeek.sunday]: this.defaultTimeRange,
+            [_salon_manageschedule_manage_schedule_page_component__WEBPACK_IMPORTED_MODULE_2__.DaysOfWeek.monday]: this.defaultTimeRange,
+            [_salon_manageschedule_manage_schedule_page_component__WEBPACK_IMPORTED_MODULE_2__.DaysOfWeek.tuesday]: this.defaultTimeRange,
+            [_salon_manageschedule_manage_schedule_page_component__WEBPACK_IMPORTED_MODULE_2__.DaysOfWeek.wednesday]: this.defaultTimeRange,
+            [_salon_manageschedule_manage_schedule_page_component__WEBPACK_IMPORTED_MODULE_2__.DaysOfWeek.thursday]: this.defaultTimeRange,
+            [_salon_manageschedule_manage_schedule_page_component__WEBPACK_IMPORTED_MODULE_2__.DaysOfWeek.friday]: this.defaultTimeRange,
+            [_salon_manageschedule_manage_schedule_page_component__WEBPACK_IMPORTED_MODULE_2__.DaysOfWeek.saturday]: this.defaultTimeRange,
+        };
+        this.dayOfWeekIndex = {
+            1: _salon_manageschedule_manage_schedule_page_component__WEBPACK_IMPORTED_MODULE_2__.DaysOfWeek.monday,
+            2: _salon_manageschedule_manage_schedule_page_component__WEBPACK_IMPORTED_MODULE_2__.DaysOfWeek.tuesday,
+            3: _salon_manageschedule_manage_schedule_page_component__WEBPACK_IMPORTED_MODULE_2__.DaysOfWeek.wednesday,
+            4: _salon_manageschedule_manage_schedule_page_component__WEBPACK_IMPORTED_MODULE_2__.DaysOfWeek.thursday,
+            5: _salon_manageschedule_manage_schedule_page_component__WEBPACK_IMPORTED_MODULE_2__.DaysOfWeek.friday,
+            6: _salon_manageschedule_manage_schedule_page_component__WEBPACK_IMPORTED_MODULE_2__.DaysOfWeek.saturday,
+            7: _salon_manageschedule_manage_schedule_page_component__WEBPACK_IMPORTED_MODULE_2__.DaysOfWeek.sunday
+        };
+        this.selectedSalonHours = [];
+        this.dayScheduleValues = {};
+        this.disabledDates = {};
+        this.bookDateHours = {};
+        this.isPastDate = (dateString) => {
+            const dateMoment = moment__WEBPACK_IMPORTED_MODULE_0__(dateString, this.dateFormat);
+            const date = dateMoment.toDate();
+            const isPast = dateMoment.isSameOrAfter(moment__WEBPACK_IMPORTED_MODULE_0__(), 'days');
+            const isFull = !(dateString in this.disabledDates);
+            return isPast && isFull;
+        };
+        this.rangeSalonHours = (start, end) => Array.from({ length: (end - start) }, (v, k) => k + start);
         //salon ID from URL params
-        this.salonId = this.activatedRoute.snapshot.params['id'];
-        this.salonServiceParams = this.activatedRoute.snapshot.params['service'];
+        this.salonId = this.activatedRoute.snapshot.params.id;
+        this.salonServiceParams = this.activatedRoute.snapshot.params.service;
         console.log(this.salonServiceParams);
         this.services = this.salonServiceParams;
         // getting stylist
-        this.salonId = this.activatedRoute.snapshot.params['id'];
-        this.salonstylistParams = this.activatedRoute.snapshot.params['stylist'];
+        this.salonId = this.activatedRoute.snapshot.params.id;
+        this.salonstylistParams = this.activatedRoute.snapshot.params.stylist;
         console.log(this.salonstylistParams);
         this.services = this.salonstylistParams;
         //getting services
@@ -166,16 +222,37 @@ class UserAppointmentPage {
         this.getStylists(this.salonId);
         this.getUserData();
     }
+    getOtherSalons() {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
+            const otherSalonsRef = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_6__.collection)(this.firestore, 'salon');
+            const otherSalonsQuery = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_6__.query)(otherSalonsRef, (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_6__.where)((0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.documentId)(), '!=', this.salonId));
+            const querySnapshot = yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_6__.getDocs)(otherSalonsQuery);
+            this.salonData = [
+                ...querySnapshot.docs.map((document) => (Object.assign(Object.assign({}, document.data()), { id: document.id }))),
+            ];
+            // querySnapshot.forEach((document) => {
+            //   // doc.data() is never undefined for query doc snapshots
+            //   this.salonData.push()
+            //   console.log(document.id, ' => ', document.data());
+            // });
+            //
+            // this.firestoreService.getSalonData().subscribe((res) => {
+            //   this.salonData = res;
+            //
+            //   console.log(res);
+            // });
+        });
+    }
     getUserData() {
         if (this.userId) {
-            const userData = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.collection)(this.firestore, 'customer');
-            const userQuery = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.query)(userData, (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.where)('uid', '==', this.userId));
-            (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.getDocs)(userQuery).then((res) => {
+            const userData = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_6__.collection)(this.firestore, 'customer');
+            const userQuery = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_6__.query)(userData, (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_6__.where)('uid', '==', this.userId));
+            (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_6__.getDocs)(userQuery).then((res) => {
                 this.userData = [
-                    ...res.docs.map((doc) => {
-                        this.email = doc.data()['email'];
-                        this.name = doc.data()['firstName'] + " " + doc.data()['lastName'];
-                        return Object.assign(Object.assign({}, doc.data()), { id: doc.id });
+                    ...res.docs.map((document) => {
+                        this.email = document.data().email;
+                        this.name = document.data().firstName + ' ' + document.data().lastName;
+                        return Object.assign(Object.assign({}, document.data()), { id: document.id });
                     }),
                 ];
                 console.log(this.userData);
@@ -186,95 +263,59 @@ class UserAppointmentPage {
         }
     }
     clear() {
-        this.name = '',
-            this.email = '',
-            this.services = '';
+        this.name = '';
+        this.email = '';
+        this.services = '';
         this.stylist = '';
         this.time = '';
         this.date = '';
         this.cost = '';
     }
     presentToast(message) {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
             const toast = yield this.toast.create({
-                message: message,
+                message,
                 duration: 2000,
             });
-            toast.present();
+            yield toast.present();
         });
     }
     ngOnInit() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
+            this.loading = yield this.loadingCtrl.create({
+                message: 'Saving Schedule...',
+                spinner: 'circles',
+            });
+            yield this.getSalonSchedule();
             yield this.getBookedDates();
-            // EXAMPLE OBJECT
-            this.datePickerObj = {
-                inputDate: new Date(),
-                fromDate: new Date(),
-                // inputDate: new Date('12'), // If you want to set month in date-picker
-                // inputDate: new Date('2018'), // If you want to set year in date-picker
-                // inputDate: new Date('2018-12'), // If you want to set year & month in date-picker
-                // inputDate: new Date('2018-12-01'), // If you want to set date in date-picker
-                // fromDate: new Date('2015-12-20'), // need this in order to have toDate
-                // toDate: new Date('2019-12-25'),
-                // showTodayButton: false,
-                // closeOnSelect: true,
-                // disableWeekDays: [],
-                // mondayFirst: true,
-                setLabel: 'Select appointment Date',
-                // todayLabel: 'Today',
-                // closeLabel: 'Close',
-                disabledDates: this.disabledDates,
-                titleLabel: "Select a Date",
-                // monthsList: ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
-                // weeksList: ['S', 'S', 'M', 'T', 'W', 'T', 'F'],
-                // dateFormat: 'MMMM D, YYYY',
-                // clearButton: false,
-                // momentLocale: 'pt-BR',
-                // yearInAscending: true,
-                // btnCloseSetInReverse: false,
-                btnProperties: {
-                    expand: "block",
-                    fill: "",
-                    size: "",
-                    disabled: "",
-                    strong: "",
-                    color: ""
-                    // "primary", "secondary", "tertiary", "success", "warning", "danger", "light", "medium", "dark" , and give color in string
-                }
-            };
+            yield this.getOtherSalons();
         });
     }
     getServices(id) {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
-            // get all services by salon ID
-            // this.firestoreService.getServicesBySalonId(id).subscribe((res) => {
-            //   console.log(`Services List: ${res}`);
-            //   // bind this to a selection form or a dropdown
-            //   this.servicesList = res;
-            // });
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
             const services = yield this.firestoreService.getServicesBySalonId(id);
-            this.servicesList = services.map(value => `${value['subCategory']} (P${value['cost']})`);
+            this.servicesList = services.map(value => `${value.subCategory} (P${value.cost})`);
         });
     }
     getStylists(id) {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
             this.stylistList = yield this.firestoreService.getstylistBySalonId(id);
         });
     }
     addAppointment() {
         // for validation
-        if (this.name == '' ||
-            this.email == '' ||
-            this.services == '' ||
-            this.stylist == '' ||
-            this.time == '' ||
+        if (this.name === '' ||
+            this.email === '' ||
+            this.services === '' ||
+            this.stylist === '' ||
+            this.time === '' ||
             // this.cost == '' ||
-            this.date == '') {
+            this.date === '') {
             this.presentToast('Please fill up all the fields');
             return;
         }
         // for actual data coming from user input
-        let data = {
+        const data = {
             name: this.name,
             email: this.email,
             date: this.date,
@@ -283,18 +324,10 @@ class UserAppointmentPage {
             service: this.services,
             time: this.time,
             cost: this.cost,
+            progress: 'pending'
         };
-        // for testing
-        // let data = {
-        // date: new Date().toLocaleDateString(),
-        //   name: 'Test Customer',
-        //   salonId: this.salonId,
-        //   service: 'Haircut (Trim)',
-        //   time: new Date().toLocaleTimeString(),
-        //   cost: '50',
-        // };
-        const addAppointment = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.collection)(this.firestore, 'Appointment');
-        (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.addDoc)(addAppointment, data)
+        const addAppointment = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_6__.collection)(this.firestore, 'Appointment');
+        (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_6__.addDoc)(addAppointment, data)
             .then((res) => {
             console.log(res);
             this.presentToast('Appointment added successfully ');
@@ -306,76 +339,179 @@ class UserAppointmentPage {
         });
     }
     getBookedDates() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
-            const q = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.query)((0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.collection)(this.firestore, "Appointment"), (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.where)("salonId", "==", this.salonId));
-            const querySnapshot = yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.getDocs)(q);
-            querySnapshot.forEach((doc) => {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
+            const q = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_6__.query)((0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_6__.collection)(this.firestore, 'Appointment'), (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_6__.where)('salonId', '==', this.salonId));
+            const querySnapshot = yield (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_6__.getDocs)(q);
+            querySnapshot.forEach((document) => {
                 // doc.data() is never undefined for query doc snapshots
-                let date = moment__WEBPACK_IMPORTED_MODULE_0__(doc.data()['date'], this.dateFormat);
-                let difference = date.diff(moment__WEBPACK_IMPORTED_MODULE_0__(), 'hours');
+                const date = moment__WEBPACK_IMPORTED_MODULE_0__(document.data().date, this.dateFormat);
+                const time = moment__WEBPACK_IMPORTED_MODULE_0__(document.data().time, this.timeFormat).format('HH');
+                const difference = date.diff(moment__WEBPACK_IMPORTED_MODULE_0__(), 'hours');
+                const dateKey = moment__WEBPACK_IMPORTED_MODULE_0__(date).format(this.dateFormat);
+                if (!(dateKey in this.bookDateHours)) {
+                    const newArray = [];
+                    newArray.push(parseInt(time, 10));
+                    this.bookDateHours[dateKey] = newArray;
+                }
+                else {
+                    this.bookDateHours[dateKey].push(parseInt(time, 10));
+                }
                 console.log(`difference=${difference}`);
                 if (difference >= 1) {
-                    console.log(doc.id, " => ", doc.data());
-                    this.disabledDates.push(date.toDate());
+                    console.log(document.id, ' => ', document.data());
+                    this.disabledDates[dateKey] = date.toDate();
                 }
             });
         });
     }
+    onDateChange(ev) {
+        const selectedValue = ev.detail.value;
+        const splitDateTime = moment__WEBPACK_IMPORTED_MODULE_0__(selectedValue).format('YYYY-MM-DD HH:mm').split(' ');
+        const selectedDayOfWeek = moment__WEBPACK_IMPORTED_MODULE_0__(selectedValue).isoWeekday();
+        const selectedDate = splitDateTime[0];
+        const selectedTime = splitDateTime[1];
+        if (selectedDate !== this.date) {
+            this.date = selectedDate;
+            this.time = '';
+            this.selectedSalonHours = [];
+            this.dateTimePicker.reset(null);
+            this.updateHoursSelection(selectedDayOfWeek, selectedDate);
+        }
+        else {
+            this.time = selectedTime;
+        }
+    }
+    updateHoursSelection(selectedDayOfWeekIndex, dateKey) {
+        const selectedDayOfWeek = this.dayOfWeekIndex[selectedDayOfWeekIndex];
+        const hourRange = this.dayScheduleValues[selectedDayOfWeek];
+        const splitHourRange = hourRange.split('-');
+        const lowerHour = splitHourRange[0];
+        const upperHour = splitHourRange[1];
+        const upperHourFormatted = moment__WEBPACK_IMPORTED_MODULE_0__(upperHour, 'hh:mm A').format('HH');
+        const lowerHourFormatted = moment__WEBPACK_IMPORTED_MODULE_0__(lowerHour, 'hh:mm A').format('HH');
+        let salonTimeOfThisDay = this.rangeSalonHours(parseInt(lowerHourFormatted, 10), parseInt(upperHourFormatted, 10) + 1);
+        const bookedDateHours = this.bookDateHours;
+        if (dateKey in bookedDateHours) {
+            salonTimeOfThisDay = salonTimeOfThisDay.filter((el) => !bookedDateHours[dateKey].includes(el));
+        }
+        this.selectedSalonHours = salonTimeOfThisDay;
+        if (this.selectedSalonHours.length === 0) {
+            this.disabledDates[dateKey] = moment__WEBPACK_IMPORTED_MODULE_0__(dateKey, this.dateFormat).toDate();
+            this.dateTimePicker.reset(null);
+        }
+    }
+    getSalonSchedule() {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
+            this.loading.setAttribute('message', 'loading schedule...');
+            yield this.loading.present();
+            if (this.salonId == null) {
+                this.setDefaultSalonSchedule();
+                yield this.loading.dismiss();
+                return;
+            }
+            const ref = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.doc)(this.firestoreService.firestore, this.salonCalendarCollection, this.salonId).withConverter(_salon_manageschedule_manage_schedule_page_component__WEBPACK_IMPORTED_MODULE_2__.salonCalendarConverter);
+            const docSnap = yield (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.getDoc)(ref);
+            if (docSnap.exists()) {
+                const salonCalendar = docSnap.data();
+                if (salonCalendar.dailySchedule === undefined) {
+                    this.setDefaultSalonSchedule();
+                }
+                else {
+                    this.dayScheduleValues = salonCalendar.dailySchedule;
+                }
+                console.log(salonCalendar.toString());
+            }
+            else {
+                console.log('No such document!');
+                this.setDefaultSalonSchedule();
+            }
+            yield this.loading.dismiss();
+            const defaultTimeString = (0,_salon_manageschedule_manage_schedule_page_component__WEBPACK_IMPORTED_MODULE_2__.rangeValueToTimeRange)(this.defaultTimeRange);
+            Object.entries(this.daysOfWeek).forEach(([key, enumValue]) => {
+                if (key in this.dayScheduleValues) {
+                    const value = this.dayScheduleValues[key];
+                    this.timeRangeValues[enumValue] = (0,_salon_manageschedule_manage_schedule_page_component__WEBPACK_IMPORTED_MODULE_2__.timeRangeToRangeValue)(value);
+                }
+                else {
+                    this.dayScheduleValues[key] = defaultTimeString;
+                    this.timeRangeValues[enumValue] = this.defaultTimeRange;
+                }
+            });
+        });
+    }
+    setDefaultSalonSchedule() {
+        const defaultTimeRange = (0,_salon_manageschedule_manage_schedule_page_component__WEBPACK_IMPORTED_MODULE_2__.rangeValueToTimeRange)(this.defaultTimeRange);
+        this.dayScheduleValues[this.daysOfWeek.sunday] = defaultTimeRange;
+        this.dayScheduleValues[this.daysOfWeek.monday] = defaultTimeRange;
+        this.dayScheduleValues[this.daysOfWeek.tuesday] = defaultTimeRange;
+        this.dayScheduleValues[this.daysOfWeek.wednesday] = defaultTimeRange;
+        this.dayScheduleValues[this.daysOfWeek.thursday] = defaultTimeRange;
+        this.dayScheduleValues[this.daysOfWeek.friday] = defaultTimeRange;
+        this.dayScheduleValues[this.daysOfWeek.saturday] = defaultTimeRange;
+    }
 }
-UserAppointmentPage.ɵfac = function UserAppointmentPage_Factory(t) { return new (t || UserAppointmentPage)(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_5__.ActivatedRoute), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_3__.Firestore), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_ionic_angular__WEBPACK_IMPORTED_MODULE_6__.ToastController), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_5__.Router), _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdirectiveInject"](_services_firestore_service__WEBPACK_IMPORTED_MODULE_1__.FirestoreService)); };
-UserAppointmentPage.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineComponent"]({ type: UserAppointmentPage, selectors: [["app-user-appointment"]], decls: 23, vars: 11, consts: [["slot", "start"], [1, "container"], ["name", "name", "type", "name", "placeholder", "Name", 1, "name", 3, "ngModel", "ngModelChange"], ["name", "email", "type", "email", "placeholder", "Email", 1, "email", 3, "ngModel", "ngModelChange"], ["name", "services", "placeholder", "Select Services", 1, "select-option-text", 3, "ngModel", "value", "ngModelChange"], [3, "value", 4, "ngFor", "ngForOf"], ["name", "stylist", "placeholder", "Select stylist", 1, "select-option-text", 3, "ngModel", "value", "ngModelChange"], ["placeholder", "Date", "name", "date", "readonly", "", 1, "customer-info5", 3, "ngModel", "liIonic4Datepicker", "ngModelChange"], ["name", "time", "type", "time", "placeholder", "Time", 1, "customer-info6", 3, "ngModel", "ngModelChange"], [1, "add-app", 3, "click"], [3, "value"]], template: function UserAppointmentPage_Template(rf, ctx) { if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "ion-header")(1, "ion-toolbar")(2, "ion-buttons", 0);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](3, "ion-back-button");
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](4, "ion-title");
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](5, "Appointment Information");
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]()()();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](6, "ion-content")(7, "ion-card", 1)(8, "form")(9, "ion-input", 2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("ngModelChange", function UserAppointmentPage_Template_ion_input_ngModelChange_9_listener($event) { return ctx.name = $event; });
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](10, "Name");
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](11, "ion-input", 3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("ngModelChange", function UserAppointmentPage_Template_ion_input_ngModelChange_11_listener($event) { return ctx.email = $event; });
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](12, "email");
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](13, "ion-select", 4);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("ngModelChange", function UserAppointmentPage_Template_ion_select_ngModelChange_13_listener($event) { return ctx.services = $event; });
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](14, UserAppointmentPage_ion_select_option_14_Template, 2, 2, "ion-select-option", 5);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](15, "ion-select", 6);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("ngModelChange", function UserAppointmentPage_Template_ion_select_ngModelChange_15_listener($event) { return ctx.stylist = $event; });
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](16, UserAppointmentPage_ion_select_option_16_Template, 2, 2, "ion-select-option", 5);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](17, "ion-input", 7);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("ngModelChange", function UserAppointmentPage_Template_ion_input_ngModelChange_17_listener($event) { return ctx.mydate1 = $event; });
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](18, "Date");
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](19, "ion-input", 8);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("ngModelChange", function UserAppointmentPage_Template_ion_input_ngModelChange_19_listener($event) { return ctx.time = $event; });
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](20, "Time ");
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]()();
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](21, "button", 9);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("click", function UserAppointmentPage_Template_button_click_21_listener() { return ctx.addAppointment(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](22, "Add Appointment");
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]()()();
+UserAppointmentPage.ɵfac = function UserAppointmentPage_Factory(t) { return new (t || UserAppointmentPage)(_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_ionic_angular__WEBPACK_IMPORTED_MODULE_7__.LoadingController), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_8__.ActivatedRoute), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_6__.Firestore), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_ionic_angular__WEBPACK_IMPORTED_MODULE_7__.ToastController), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_8__.Router), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_services_firestore_service__WEBPACK_IMPORTED_MODULE_3__.FirestoreService)); };
+UserAppointmentPage.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdefineComponent"]({ type: UserAppointmentPage, selectors: [["app-user-appointment"]], viewQuery: function UserAppointmentPage_Query(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵviewQuery"](_c0, 5);
     } if (rf & 2) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](9);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngModel", ctx.name);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngModel", ctx.email);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngModel", ctx.services)("value", ctx.salonServiceParams);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngForOf", ctx.servicesList);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngModel", ctx.stylist)("value", ctx.salonstylistParams);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngForOf", ctx.stylistList);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngModel", ctx.mydate1)("liIonic4Datepicker", ctx.datePickerObj);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngModel", ctx.time);
-    } }, dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_7__.NgForOf, _angular_forms__WEBPACK_IMPORTED_MODULE_8__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_8__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_8__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_8__.NgModel, _angular_forms__WEBPACK_IMPORTED_MODULE_8__.NgForm, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonBackButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonButtons, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonCard, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonContent, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonHeader, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonInput, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonSelect, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonSelectOption, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonTitle, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonToolbar, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.SelectValueAccessor, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.TextValueAccessor, _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonBackButtonDelegate, _logisticinfotech_ionic4_datepicker__WEBPACK_IMPORTED_MODULE_9__["ɵa"]], styles: [".container[_ngcontent-%COMP%] {\n  box-shadow: none;\n  padding: 10px;\n}\n\n.customer-info1[_ngcontent-%COMP%] {\n  padding: 10px;\n  margin: 5px;\n  width: 98%;\n  font-size: 20px;\n  border-radius: 10px;\n  border-color: #f4978e;\n}\n\n.customer-info2[_ngcontent-%COMP%] {\n  padding: 10px;\n  margin: 5px;\n  width: 98%;\n  font-size: 20px;\n  border-radius: 10px;\n  border-color: #f4978e;\n}\n\n.customer-info3[_ngcontent-%COMP%] {\n  padding: 10px;\n  margin: 5px;\n  width: 98%;\n  font-size: 20px;\n  border-radius: 10px;\n  border-color: #f4978e;\n}\n\n.customer-info4[_ngcontent-%COMP%] {\n  padding: 10px;\n  margin: 5px;\n  width: 98%;\n  font-size: 20px;\n  border-radius: 10px;\n  border-color: #f4978e;\n}\n\n.customer-info5[_ngcontent-%COMP%] {\n  padding: 10px;\n  margin: 5px;\n  width: 50%;\n  font-size: 20px;\n  border-radius: 10px;\n  border-color: #f4978e;\n}\n\n.customer-info6[_ngcontent-%COMP%] {\n  padding: 10px;\n  margin: 5px;\n  width: 50%;\n  font-size: 20px;\n  border-radius: 10px;\n  border-color: #f4978e;\n}\n\n.add-app[_ngcontent-%COMP%] {\n  width: 100%;\n  border-radius: 20px;\n  height: 40px;\n  background-color: #f4978e;\n}\n\n.select-option-text[_ngcontent-%COMP%] {\n  color: black;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInVzZXItYXBwb2ludG1lbnQucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksZ0JBQUE7RUFDQSxhQUFBO0FBQ0o7O0FBRUE7RUFDSSxhQUFBO0VBQ0EsV0FBQTtFQUNBLFVBQUE7RUFDQSxlQUFBO0VBQ0EsbUJBQUE7RUFDQSxxQkFBQTtBQUNKOztBQUVBO0VBQ0ksYUFBQTtFQUNBLFdBQUE7RUFDQSxVQUFBO0VBQ0EsZUFBQTtFQUNBLG1CQUFBO0VBQ0EscUJBQUE7QUFDSjs7QUFFQTtFQUNJLGFBQUE7RUFDQSxXQUFBO0VBQ0EsVUFBQTtFQUNBLGVBQUE7RUFDQSxtQkFBQTtFQUNBLHFCQUFBO0FBQ0o7O0FBRUE7RUFDSSxhQUFBO0VBQ0EsV0FBQTtFQUNBLFVBQUE7RUFDQSxlQUFBO0VBQ0EsbUJBQUE7RUFDQSxxQkFBQTtBQUNKOztBQUVBO0VBQ0ksYUFBQTtFQUNBLFdBQUE7RUFDQSxVQUFBO0VBQ0EsZUFBQTtFQUNBLG1CQUFBO0VBQ0EscUJBQUE7QUFDSjs7QUFFQTtFQUNJLGFBQUE7RUFDQSxXQUFBO0VBQ0EsVUFBQTtFQUNBLGVBQUE7RUFDQSxtQkFBQTtFQUNBLHFCQUFBO0FBQ0o7O0FBRUE7RUFDSSxXQUFBO0VBQ0EsbUJBQUE7RUFDQSxZQUFBO0VBQ0EseUJBQUE7QUFDSjs7QUFFQTtFQUNJLFlBQUE7QUFDSiIsImZpbGUiOiJ1c2VyLWFwcG9pbnRtZW50LnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5jb250YWluZXJ7XHJcbiAgICBib3gtc2hhZG93OiBub25lO1xyXG4gICAgcGFkZGluZzogMTBweDtcclxufVxyXG5cclxuLmN1c3RvbWVyLWluZm8xe1xyXG4gICAgcGFkZGluZzogMTBweDtcclxuICAgIG1hcmdpbjogNXB4O1xyXG4gICAgd2lkdGg6IDk4JTtcclxuICAgIGZvbnQtc2l6ZTogMjBweDtcclxuICAgIGJvcmRlci1yYWRpdXM6IDEwcHg7XHJcbiAgICBib3JkZXItY29sb3I6ICNmNDk3OGU7XHJcbn1cclxuXHJcbi5jdXN0b21lci1pbmZvMiB7XHJcbiAgICBwYWRkaW5nOiAxMHB4O1xyXG4gICAgbWFyZ2luOiA1cHg7XHJcbiAgICB3aWR0aDogOTglO1xyXG4gICAgZm9udC1zaXplOiAyMHB4O1xyXG4gICAgYm9yZGVyLXJhZGl1czogMTBweDtcclxuICAgIGJvcmRlci1jb2xvcjogI2Y0OTc4ZTtcclxufVxyXG5cclxuLmN1c3RvbWVyLWluZm8zIHtcclxuICAgIHBhZGRpbmc6IDEwcHg7XHJcbiAgICBtYXJnaW46IDVweDtcclxuICAgIHdpZHRoOiA5OCU7XHJcbiAgICBmb250LXNpemU6IDIwcHg7XHJcbiAgICBib3JkZXItcmFkaXVzOiAxMHB4O1xyXG4gICAgYm9yZGVyLWNvbG9yOiAjZjQ5NzhlO1xyXG59XHJcblxyXG4uY3VzdG9tZXItaW5mbzQge1xyXG4gICAgcGFkZGluZzogMTBweDtcclxuICAgIG1hcmdpbjogNXB4O1xyXG4gICAgd2lkdGg6IDk4JTtcclxuICAgIGZvbnQtc2l6ZTogMjBweDtcclxuICAgIGJvcmRlci1yYWRpdXM6IDEwcHg7XHJcbiAgICBib3JkZXItY29sb3I6ICNmNDk3OGU7XHJcbn1cclxuXHJcbi5jdXN0b21lci1pbmZvNSB7XHJcbiAgICBwYWRkaW5nOiAxMHB4O1xyXG4gICAgbWFyZ2luOiA1cHg7XHJcbiAgICB3aWR0aDogNTAlO1xyXG4gICAgZm9udC1zaXplOiAyMHB4O1xyXG4gICAgYm9yZGVyLXJhZGl1czogMTBweDtcclxuICAgIGJvcmRlci1jb2xvcjogI2Y0OTc4ZTtcclxufVxyXG5cclxuLmN1c3RvbWVyLWluZm82IHtcclxuICAgIHBhZGRpbmc6IDEwcHg7XHJcbiAgICBtYXJnaW46IDVweDtcclxuICAgIHdpZHRoOiA1MCU7XHJcbiAgICBmb250LXNpemU6IDIwcHg7XHJcbiAgICBib3JkZXItcmFkaXVzOiAxMHB4O1xyXG4gICAgYm9yZGVyLWNvbG9yOiAjZjQ5NzhlO1xyXG59XHJcblxyXG4uYWRkLWFwcHtcclxuICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgYm9yZGVyLXJhZGl1czogMjBweDtcclxuICAgIGhlaWdodDogNDBweDtcclxuICAgIGJhY2tncm91bmQtY29sb3I6ICNmNDk3OGU7XHJcbn1cclxuXHJcbi5zZWxlY3Qtb3B0aW9uLXRleHR7XHJcbiAgICBjb2xvcjogYmxhY2s7XHJcbn1cclxuXHJcbiJdfQ== */"] });
+        let _t;
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵloadQuery"]()) && (ctx.dateTimePicker = _t.first);
+    } }, decls: 26, vars: 12, consts: [["slot", "start"], [1, "container"], ["name", "name", "type", "name", "placeholder", "Name", 1, "name", 3, "ngModel", "ngModelChange"], ["name", "email", "type", "email", "placeholder", "Email", 1, "email", 3, "ngModel", "ngModelChange"], ["name", "services", "placeholder", "Select Services", 1, "select-option-text", 3, "ngModel", "value", "ngModelChange"], [3, "value", 4, "ngFor", "ngForOf"], ["name", "stylist", "placeholder", "Select stylist", 1, "select-option-text", 3, "ngModel", "value", "ngModelChange"], ["minuteValues", "0,30", "hourCycle", "h23", 3, "isDateEnabled", "hourValues", "ionChange"], ["dateTimePicker", ""], [1, "add-app", 3, "click"], ["color", "primary"], [1, "ion-margin-top", 3, "options"], [4, "ngFor", "ngForOf"], [3, "value"], ["id", "img", "button", "", 3, "routerLink"], ["id", "size", 2, "max-width", "100%", "max-height", "100%", 3, "src"]], template: function UserAppointmentPage_Template(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](0, "ion-header")(1, "ion-toolbar")(2, "ion-buttons", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelement"](3, "ion-back-button");
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](4, "ion-title");
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](5, "Appointment Information");
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]()()();
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](6, "ion-content")(7, "ion-card", 1)(8, "form")(9, "ion-input", 2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵlistener"]("ngModelChange", function UserAppointmentPage_Template_ion_input_ngModelChange_9_listener($event) { return ctx.name = $event; });
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](10, "Name");
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](11, "ion-input", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵlistener"]("ngModelChange", function UserAppointmentPage_Template_ion_input_ngModelChange_11_listener($event) { return ctx.email = $event; });
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](12, "email");
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](13, "ion-select", 4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵlistener"]("ngModelChange", function UserAppointmentPage_Template_ion_select_ngModelChange_13_listener($event) { return ctx.services = $event; });
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtemplate"](14, UserAppointmentPage_ion_select_option_14_Template, 2, 2, "ion-select-option", 5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](15, "ion-select", 6);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵlistener"]("ngModelChange", function UserAppointmentPage_Template_ion_select_ngModelChange_15_listener($event) { return ctx.stylist = $event; });
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtemplate"](16, UserAppointmentPage_ion_select_option_16_Template, 2, 2, "ion-select-option", 5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](17, "ion-datetime", 7, 8);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵlistener"]("ionChange", function UserAppointmentPage_Template_ion_datetime_ionChange_17_listener($event) { return ctx.onDateChange($event); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]()();
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](19, "button", 9);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵlistener"]("click", function UserAppointmentPage_Template_button_click_19_listener() { return ctx.addAppointment(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](20, "Add Appointment");
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]()();
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](21, "ion-text", 10)(22, "h1");
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](23, "Other Salons:");
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]()();
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](24, "ion-slides", 11);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtemplate"](25, UserAppointmentPage_ion_slide_25_Template, 3, 4, "ion-slide", 12);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]()();
+    } if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](9);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("ngModel", ctx.name);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("ngModel", ctx.email);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("ngModel", ctx.services)("value", ctx.salonServiceParams);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("ngForOf", ctx.servicesList);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("ngModel", ctx.stylist)("value", ctx.salonstylistParams);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("ngForOf", ctx.stylistList);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("isDateEnabled", ctx.isPastDate)("hourValues", ctx.selectedSalonHours);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](7);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("options", ctx.option);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("ngForOf", ctx.salonData);
+    } }, dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_9__.NgForOf, _angular_forms__WEBPACK_IMPORTED_MODULE_10__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_10__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_10__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_10__.NgModel, _angular_forms__WEBPACK_IMPORTED_MODULE_10__.NgForm, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonBackButton, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonButtons, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonCard, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonContent, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonDatetime, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonHeader, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonInput, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonSelect, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonSelectOption, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonSlide, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonSlides, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonText, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonTitle, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonToolbar, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.SelectValueAccessor, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.TextValueAccessor, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonBackButtonDelegate, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.RouterLinkDelegate, _angular_router__WEBPACK_IMPORTED_MODULE_8__.RouterLink], styles: [".container[_ngcontent-%COMP%] {\n  box-shadow: none;\n  padding: 10px;\n}\n\n.customer-info1[_ngcontent-%COMP%] {\n  padding: 10px;\n  margin: 5px;\n  width: 98%;\n  font-size: 20px;\n  border-radius: 10px;\n  border-color: #f4978e;\n}\n\n.customer-info2[_ngcontent-%COMP%] {\n  padding: 10px;\n  margin: 5px;\n  width: 98%;\n  font-size: 20px;\n  border-radius: 10px;\n  border-color: #f4978e;\n}\n\n.customer-info3[_ngcontent-%COMP%] {\n  padding: 10px;\n  margin: 5px;\n  width: 98%;\n  font-size: 20px;\n  border-radius: 10px;\n  border-color: #f4978e;\n}\n\n.customer-info4[_ngcontent-%COMP%] {\n  padding: 10px;\n  margin: 5px;\n  width: 98%;\n  font-size: 20px;\n  border-radius: 10px;\n  border-color: #f4978e;\n}\n\n.customer-info5[_ngcontent-%COMP%] {\n  padding: 10px;\n  margin: 5px;\n  width: 50%;\n  font-size: 20px;\n  border-radius: 10px;\n  border-color: #f4978e;\n}\n\n.customer-info6[_ngcontent-%COMP%] {\n  padding: 10px;\n  margin: 5px;\n  width: 50%;\n  font-size: 20px;\n  border-radius: 10px;\n  border-color: #f4978e;\n}\n\n.add-app[_ngcontent-%COMP%] {\n  width: 100%;\n  border-radius: 20px;\n  height: 40px;\n  background-color: #f4978e;\n}\n\n.select-option-text[_ngcontent-%COMP%] {\n  color: black;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInVzZXItYXBwb2ludG1lbnQucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksZ0JBQUE7RUFDQSxhQUFBO0FBQ0o7O0FBRUE7RUFDSSxhQUFBO0VBQ0EsV0FBQTtFQUNBLFVBQUE7RUFDQSxlQUFBO0VBQ0EsbUJBQUE7RUFDQSxxQkFBQTtBQUNKOztBQUVBO0VBQ0ksYUFBQTtFQUNBLFdBQUE7RUFDQSxVQUFBO0VBQ0EsZUFBQTtFQUNBLG1CQUFBO0VBQ0EscUJBQUE7QUFDSjs7QUFFQTtFQUNJLGFBQUE7RUFDQSxXQUFBO0VBQ0EsVUFBQTtFQUNBLGVBQUE7RUFDQSxtQkFBQTtFQUNBLHFCQUFBO0FBQ0o7O0FBRUE7RUFDSSxhQUFBO0VBQ0EsV0FBQTtFQUNBLFVBQUE7RUFDQSxlQUFBO0VBQ0EsbUJBQUE7RUFDQSxxQkFBQTtBQUNKOztBQUVBO0VBQ0ksYUFBQTtFQUNBLFdBQUE7RUFDQSxVQUFBO0VBQ0EsZUFBQTtFQUNBLG1CQUFBO0VBQ0EscUJBQUE7QUFDSjs7QUFFQTtFQUNJLGFBQUE7RUFDQSxXQUFBO0VBQ0EsVUFBQTtFQUNBLGVBQUE7RUFDQSxtQkFBQTtFQUNBLHFCQUFBO0FBQ0o7O0FBRUE7RUFDSSxXQUFBO0VBQ0EsbUJBQUE7RUFDQSxZQUFBO0VBQ0EseUJBQUE7QUFDSjs7QUFFQTtFQUNJLFlBQUE7QUFDSiIsImZpbGUiOiJ1c2VyLWFwcG9pbnRtZW50LnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5jb250YWluZXJ7XHJcbiAgICBib3gtc2hhZG93OiBub25lO1xyXG4gICAgcGFkZGluZzogMTBweDtcclxufVxyXG5cclxuLmN1c3RvbWVyLWluZm8xe1xyXG4gICAgcGFkZGluZzogMTBweDtcclxuICAgIG1hcmdpbjogNXB4O1xyXG4gICAgd2lkdGg6IDk4JTtcclxuICAgIGZvbnQtc2l6ZTogMjBweDtcclxuICAgIGJvcmRlci1yYWRpdXM6IDEwcHg7XHJcbiAgICBib3JkZXItY29sb3I6ICNmNDk3OGU7XHJcbn1cclxuXHJcbi5jdXN0b21lci1pbmZvMiB7XHJcbiAgICBwYWRkaW5nOiAxMHB4O1xyXG4gICAgbWFyZ2luOiA1cHg7XHJcbiAgICB3aWR0aDogOTglO1xyXG4gICAgZm9udC1zaXplOiAyMHB4O1xyXG4gICAgYm9yZGVyLXJhZGl1czogMTBweDtcclxuICAgIGJvcmRlci1jb2xvcjogI2Y0OTc4ZTtcclxufVxyXG5cclxuLmN1c3RvbWVyLWluZm8zIHtcclxuICAgIHBhZGRpbmc6IDEwcHg7XHJcbiAgICBtYXJnaW46IDVweDtcclxuICAgIHdpZHRoOiA5OCU7XHJcbiAgICBmb250LXNpemU6IDIwcHg7XHJcbiAgICBib3JkZXItcmFkaXVzOiAxMHB4O1xyXG4gICAgYm9yZGVyLWNvbG9yOiAjZjQ5NzhlO1xyXG59XHJcblxyXG4uY3VzdG9tZXItaW5mbzQge1xyXG4gICAgcGFkZGluZzogMTBweDtcclxuICAgIG1hcmdpbjogNXB4O1xyXG4gICAgd2lkdGg6IDk4JTtcclxuICAgIGZvbnQtc2l6ZTogMjBweDtcclxuICAgIGJvcmRlci1yYWRpdXM6IDEwcHg7XHJcbiAgICBib3JkZXItY29sb3I6ICNmNDk3OGU7XHJcbn1cclxuXHJcbi5jdXN0b21lci1pbmZvNSB7XHJcbiAgICBwYWRkaW5nOiAxMHB4O1xyXG4gICAgbWFyZ2luOiA1cHg7XHJcbiAgICB3aWR0aDogNTAlO1xyXG4gICAgZm9udC1zaXplOiAyMHB4O1xyXG4gICAgYm9yZGVyLXJhZGl1czogMTBweDtcclxuICAgIGJvcmRlci1jb2xvcjogI2Y0OTc4ZTtcclxufVxyXG5cclxuLmN1c3RvbWVyLWluZm82IHtcclxuICAgIHBhZGRpbmc6IDEwcHg7XHJcbiAgICBtYXJnaW46IDVweDtcclxuICAgIHdpZHRoOiA1MCU7XHJcbiAgICBmb250LXNpemU6IDIwcHg7XHJcbiAgICBib3JkZXItcmFkaXVzOiAxMHB4O1xyXG4gICAgYm9yZGVyLWNvbG9yOiAjZjQ5NzhlO1xyXG59XHJcblxyXG4uYWRkLWFwcHtcclxuICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgYm9yZGVyLXJhZGl1czogMjBweDtcclxuICAgIGhlaWdodDogNDBweDtcclxuICAgIGJhY2tncm91bmQtY29sb3I6ICNmNDk3OGU7XHJcbn1cclxuXHJcbi5zZWxlY3Qtb3B0aW9uLXRleHR7XHJcbiAgICBjb2xvcjogYmxhY2s7XHJcbn1cclxuXHJcbiJdfQ== */"] });
 
 
 /***/ }),

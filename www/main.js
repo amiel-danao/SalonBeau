@@ -42,15 +42,19 @@ const routes = [
     },
     {
         path: 'user-appointment/:id',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_firestore_service_ts-node_modules_moment_moment_js"), __webpack_require__.e("src_app_user-appointment_user-appointment_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./user-appointment/user-appointment.module */ 8784)).then((m) => m.UserAppointmentPageModule),
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_salon_manageschedule_manage-schedule-page_component_ts"), __webpack_require__.e("src_app_user-appointment_user-appointment_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./user-appointment/user-appointment.module */ 8784)).then((m) => m.UserAppointmentPageModule),
     },
     {
         path: 'user-appointment/:id/:service',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_firestore_service_ts-node_modules_moment_moment_js"), __webpack_require__.e("src_app_user-appointment_user-appointment_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./user-appointment/user-appointment.module */ 8784)).then((m) => m.UserAppointmentPageModule),
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_salon_manageschedule_manage-schedule-page_component_ts"), __webpack_require__.e("src_app_user-appointment_user-appointment_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./user-appointment/user-appointment.module */ 8784)).then((m) => m.UserAppointmentPageModule),
     },
     {
         path: 'dashboard',
         loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_salon_dashboard_dashboard_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./salon/dashboard/dashboard.module */ 4601)).then((m) => m.DashboardPageModule),
+    },
+    {
+        path: 'user-schedules',
+        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_user-appointment_user-schedules_user-schedules_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./user-appointment/user-schedules/user-schedules.module */ 2619)).then((m) => m.UserSchedulePageModule),
     },
     {
         path: 'user-salon-services',
@@ -94,7 +98,7 @@ const routes = [
     },
     {
         path: 'manageschedule',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_firestore_service_ts-node_modules_moment_moment_js"), __webpack_require__.e("src_app_salon_manageschedule_manageschedule_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./salon/manageschedule/manageschedule.module */ 7582)).then(m => m.ManageschedulePageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_salon_manageschedule_manage-schedule-page_component_ts"), __webpack_require__.e("src_app_salon_manageschedule_manageschedule_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./salon/manageschedule/manageschedule.module */ 7582)).then(m => m.ManageschedulePageModule)
     },
 ];
 class AppRoutingModule {
@@ -250,12 +254,14 @@ class CustomerLoginPage {
         });
     }
     login() {
-        if (this.emailLogin != "" || this.passwordLogin != "") {
-            this.authService.loginUser(this.emailLogin, this.passwordLogin);
-        }
-        else {
-            this.presentToast("Missing Fields");
-        }
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__awaiter)(this, void 0, void 0, function* () {
+            if (this.emailLogin !== '' || this.passwordLogin !== '') {
+                this.authService.loginUser(this.emailLogin, this.passwordLogin);
+            }
+            else {
+                yield this.presentToast('Missing Fields');
+            }
+        });
     }
     toSignUp(path) {
         this.router.navigate([`/${path}`]);
@@ -351,7 +357,7 @@ class AuthenticationService {
     presentToast(message) {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__awaiter)(this, void 0, void 0, function* () {
             const toast = yield this.toast.create({
-                message: message,
+                message,
                 duration: 2000,
             });
             toast.present();
@@ -362,36 +368,20 @@ class AuthenticationService {
         const q = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.query)(loginQuery, (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.where)('email', '==', email));
         (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.getDocs)(q).then((res) => {
             const userData = [
-                ...res.docs.map((doc) => {
-                    return Object.assign({ id: doc.id }, doc.data());
-                }),
+                ...res.docs.map((doc) => (Object.assign({ id: doc.id }, doc.data()))),
             ];
             if (userData[0].type === 'customer') {
                 (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_2__.signInWithEmailAndPassword)(this.auth, email, password)
-                    .then((res) => {
-                    if (res) {
-                        localStorage.setItem('token', res.user.accessToken);
-                        localStorage.setItem('user', res.user.uid);
+                    .then((result) => {
+                    if (result) {
+                        localStorage.setItem('token', result.user.accessToken);
+                        localStorage.setItem('user', result.user.uid);
                         window.location.href = '/';
                         this.router.navigate(['/']);
                     }
                 })
                     .catch((err) => {
-                    if (err.code == 'auth/invalid-email') {
-                        this.presentToast('Invalid email ');
-                    }
-                    if (err.code == 'auth/missing-email') {
-                        this.presentToast('Missing email');
-                    }
-                    if (err.code == 'auth/internal-error') {
-                        this.presentToast('Missing password');
-                    }
-                    if (err.code == 'auth/wrong-password') {
-                        this.presentToast('Wrong password');
-                    }
-                    if (err.code == 'auth/user-not-found') {
-                        this.presentToast('User not found');
-                    }
+                    this.printLoginError(err);
                 });
             }
             else if (userData[0].type === 'salon') {
@@ -405,21 +395,7 @@ class AuthenticationService {
                     }
                 })
                     .catch((err) => {
-                    if (err.code == 'auth/invalid-email') {
-                        this.presentToast('Invalid email ');
-                    }
-                    if (err.code == 'auth/missing-email') {
-                        this.presentToast('Missing email');
-                    }
-                    if (err.code == 'auth/internal-error') {
-                        this.presentToast('Missing password');
-                    }
-                    if (err.code == 'auth/wrong-password') {
-                        this.presentToast('Wrong password');
-                    }
-                    if (err.code == 'auth/user-not-found') {
-                        this.presentToast('User not found');
-                    }
+                    this.printLoginError(err);
                 });
             }
             else {
@@ -427,70 +403,22 @@ class AuthenticationService {
             }
         });
     }
-    salonLogin(email, password) {
-        const loginQuery = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.collection)(this.firestore, 'customer');
-        const q = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.query)(loginQuery, (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.where)('email', '==', email));
-        (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.getDocs)(q).then((res) => {
-            const userData = [
-                ...res.docs.map((doc) => {
-                    return Object.assign({ id: doc.id }, doc.data());
-                }),
-            ];
-            if (userData[0].type === 'salon') {
-                (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_2__.signInWithEmailAndPassword)(this.auth, email, password)
-                    .then((res) => {
-                    if (res) {
-                        localStorage.setItem('token', res.user.accessToken);
-                        localStorage.setItem('user', res.user.uid);
-                        this.router.navigate(['dashboard']);
-                    }
-                })
-                    .catch((err) => {
-                    if (err.code == 'auth/invalid-email') {
-                        this.presentToast('Invalid email ');
-                    }
-                    if (err.code == 'auth/missing-email') {
-                        this.presentToast('Missing email');
-                    }
-                    if (err.code == 'auth/internal-error') {
-                        this.presentToast('Missing password');
-                    }
-                    if (err.code == 'auth/wrong-password') {
-                        this.presentToast('Wrong password');
-                    }
-                    if (err.code == 'auth/user-not-found') {
-                        this.presentToast('User not found');
-                    }
-                });
-            }
-            else {
-                (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_2__.signInWithEmailAndPassword)(this.auth, email, password)
-                    .then((res) => {
-                    if (res) {
-                        localStorage.setItem('token', res.user.accessToken);
-                        localStorage.setItem('user', res.user.uid);
-                        this.router.navigate(['/']);
-                    }
-                })
-                    .catch((err) => {
-                    if (err.code == 'auth/invalid-email') {
-                        this.presentToast('Invalid email ');
-                    }
-                    if (err.code == 'auth/missing-email') {
-                        this.presentToast('Missing email');
-                    }
-                    if (err.code == 'auth/internal-error') {
-                        this.presentToast('Missing password');
-                    }
-                    if (err.code == 'auth/wrong-password') {
-                        this.presentToast('Wrong password');
-                    }
-                    if (err.code == 'auth/user-not-found') {
-                        this.presentToast('User not found');
-                    }
-                });
-            }
-        });
+    printLoginError(err) {
+        if (err.code === 'auth/invalid-email') {
+            this.presentToast('Invalid email ');
+        }
+        if (err.code === 'auth/missing-email') {
+            this.presentToast('Missing email');
+        }
+        if (err.code === 'auth/internal-error') {
+            this.presentToast('Missing password');
+        }
+        if (err.code === 'auth/wrong-password') {
+            this.presentToast('Wrong password');
+        }
+        if (err.code === 'auth/user-not-found') {
+            this.presentToast('User not found');
+        }
     }
 }
 AuthenticationService.ɵfac = function AuthenticationService_Factory(t) { return new (t || AuthenticationService)(_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵinject"](_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.Firestore), _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵinject"](_angular_fire_auth__WEBPACK_IMPORTED_MODULE_2__.Auth), _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵinject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__.Router), _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵinject"](_ionic_angular__WEBPACK_IMPORTED_MODULE_5__.ToastController)); };
@@ -631,12 +559,12 @@ var map = {
 	],
 	"./ion-datetime-button.entry.js": [
 		7950,
-		"default-node_modules_ionic_core_dist_esm_data-64bc531e_js-node_modules_ionic_core_dist_esm_th-f0213e",
+		"default-node_modules_ionic_core_dist_esm_data-cb72448c_js-node_modules_ionic_core_dist_esm_th-29e28e",
 		"node_modules_ionic_core_dist_esm_ion-datetime-button_entry_js"
 	],
 	"./ion-datetime_3.entry.js": [
 		9689,
-		"default-node_modules_ionic_core_dist_esm_data-64bc531e_js-node_modules_ionic_core_dist_esm_th-f0213e",
+		"default-node_modules_ionic_core_dist_esm_data-cb72448c_js-node_modules_ionic_core_dist_esm_th-29e28e",
 		"common",
 		"node_modules_ionic_core_dist_esm_ion-datetime_3_entry_js"
 	],
@@ -656,6 +584,7 @@ var map = {
 	],
 	"./ion-input.entry.js": [
 		3288,
+		"common",
 		"node_modules_ionic_core_dist_esm_ion-input_entry_js"
 	],
 	"./ion-item-option_3.entry.js": [

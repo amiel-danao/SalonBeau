@@ -427,13 +427,6 @@ strong {
 }
 img {
   max-width: 100%;
-  border: 0;
-}
-svg:not(:root) {
-  overflow: hidden;
-}
-figure {
-  margin: 1em 40px;
 }
 hr {
   height: 1px;
@@ -505,6 +498,7 @@ button ion-label {
   pointer-events: none;
 }
 button {
+  padding: 0;
   border: 0;
   border-radius: 0;
   font-family: inherit;
@@ -528,11 +522,6 @@ button::-moz-focus-inner,
 input::-moz-focus-inner {
   padding: 0;
   border: 0;
-}
-input[type=checkbox],
-input[type=radio] {
-  padding: 0;
-  box-sizing: border-box;
 }
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {

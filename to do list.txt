@@ -17,3 +17,5 @@ Feb 12
 [OK]6. Forgot password not functional
 
 [for testing]7. Fixing bugs due to some phones is not useful (cannot login)
+
+[OK] schedule time of salon for user view

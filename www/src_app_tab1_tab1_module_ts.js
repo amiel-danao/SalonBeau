@@ -14,7 +14,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ 4929);
 /* harmony import */ var _angular_fire_auth__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/fire/auth */ 1577);
 /* harmony import */ var _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/fire/firestore */ 6466);
-/* harmony import */ var firebase_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! firebase/auth */ 3628);
+/* harmony import */ var firebase_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! firebase/auth */ 6818);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ 4383);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 3184);
 
@@ -60,36 +60,36 @@ class FirestoreService {
     signUp(data) {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__awaiter)(this, void 0, void 0, function* () {
             const usersInstance = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.collection)(this.firestore, 'customer');
-            const createUser = yield (0,firebase_auth__WEBPACK_IMPORTED_MODULE_0__.createUserWithEmailAndPassword)(this.auth, data.email, data.password);
-            let data2 = Object.assign(Object.assign({}, data), { uid: createUser.user.uid, type: 'customer' });
-            return (0,rxjs__WEBPACK_IMPORTED_MODULE_2__.from)([
-                (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_4__.updateProfile)(createUser.user, {
-                    displayName: data.firstName,
-                })
-                    .then((res) => {
-                    return [
+            try {
+                const createUser = yield (0,firebase_auth__WEBPACK_IMPORTED_MODULE_0__.createUserWithEmailAndPassword)(this.auth, data.email, data.password);
+                const data2 = Object.assign(Object.assign({}, data), { uid: createUser.user.uid, type: 'customer' });
+                return (0,rxjs__WEBPACK_IMPORTED_MODULE_2__.from)([
+                    (0,_angular_fire_auth__WEBPACK_IMPORTED_MODULE_4__.updateProfile)(createUser.user, {
+                        displayName: data.firstName,
+                    })
+                        .then((res) => [
                         (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.addDoc)(usersInstance, data2)
-                            .then((res) => {
-                            return {
-                                status: 'success',
-                                message: 'Customer Registered Succesfully',
-                            };
-                        })
-                            .catch((err) => {
-                            return {
-                                status: 'error',
-                                message: err,
-                            };
-                        }),
-                    ];
-                })
-                    .catch((err) => {
-                    return {
+                            .then((result) => ({
+                            status: 'success',
+                            message: 'Customer Registered Successfully',
+                        }))
+                            .catch((err) => ({
+                            status: 'error',
+                            message: err,
+                        })),
+                    ])
+                        .catch((err) => ({
                         status: 'error',
                         message: err,
-                    };
-                }),
-            ]);
+                    })),
+                ]);
+            }
+            catch (err) {
+                return {
+                    status: 'error',
+                    message: err,
+                };
+            }
         });
     }
     // get Appointments
@@ -106,6 +106,17 @@ class FirestoreService {
     getAppointmentsBySalon(id) {
         const appointmentsDb = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.collection)(this.firestore, 'Appointment');
         const salonquery = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.query)(appointmentsDb, (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.where)('salonId', '==', id), (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.orderBy)('date', 'desc'));
+        return (0,rxjs__WEBPACK_IMPORTED_MODULE_2__.from)((0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.getDocs)(salonquery).then((res) => {
+            return [
+                ...res.docs.map((doc) => {
+                    return Object.assign(Object.assign({}, doc.data()), { id: doc.id });
+                }),
+            ];
+        }));
+    }
+    getAppointmentsByUser(email) {
+        const appointmentsDb = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.collection)(this.firestore, 'Appointment');
+        const salonquery = (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.query)(appointmentsDb, (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.where)('email', '==', email), (0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.orderBy)('date', 'desc'));
         return (0,rxjs__WEBPACK_IMPORTED_MODULE_2__.from)((0,_angular_fire_firestore__WEBPACK_IMPORTED_MODULE_1__.getDocs)(salonquery).then((res) => {
             return [
                 ...res.docs.map((doc) => {
@@ -334,7 +345,6 @@ class Tab1Page {
     constructor(navCtrl, firestoreService) {
         this.navCtrl = navCtrl;
         this.firestoreService = firestoreService;
-        this.salonData = [];
         this.option = {
             slidesPerView: 1.5,
             centeredSlides: true,
@@ -342,6 +352,7 @@ class Tab1Page {
             spaceBetween: 10,
             autoplay: true,
         };
+        this.salonData = [];
     }
     ngOnInit() {
         this.getSalonDB();
@@ -362,7 +373,7 @@ class Tab1Page {
             sum = sum + Number(element);
         });
         // console.log(sum / rating.length);
-        return sum / rating.length;
+        return (sum / rating.length).toFixed(1);
     }
 }
 Tab1Page.ɵfac = function Tab1Page_Factory(t) { return new (t || Tab1Page)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_ionic_angular__WEBPACK_IMPORTED_MODULE_2__.NavController), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_services_firestore_service__WEBPACK_IMPORTED_MODULE_0__.FirestoreService)); };

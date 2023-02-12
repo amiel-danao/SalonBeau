@@ -18,10 +18,12 @@ export class Tab1Page implements OnInit {
   constructor(
     private navCtrl: NavController,
     private firestoreService: FirestoreService
-  ) {}
+  ) {
+    this.getSalonDB();
+  }
 
   ngOnInit(): void {
-    this.getSalonDB();
+
   }
 
   getSalonDB() {

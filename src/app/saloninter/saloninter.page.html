@@ -37,7 +37,7 @@
     </ion-slides>
       <br /><br />
       <div class="appointment, ratings" *ngIf="userDataArray[0]?.type!='salon'">
-    
+
       <div class="salon-inter-content-center">
         <!-- APPOINTMENT BUTTON -->
         <ion-item [routerLink]="['/user-appointment',salonData[0]?.id]" class="appointment-button">
@@ -45,6 +45,24 @@
         </ion-item>
         </div>
         <br />
+
+        <ion-list>
+          <ion-list-header>
+            <ion-label>Salon Schedule</ion-label>
+          </ion-list-header>
+          <ion-item *ngFor="let day of this.salonSchedule;">
+            <ion-label>
+              <ion-grid class="ion-no-padding">
+              <ion-row class="ion-no-padding">
+                <ion-col>{{day.key}}</ion-col>
+                <ion-col>{{day.value}}</ion-col>
+              </ion-row>
+            </ion-grid></ion-label>
+          </ion-item>
+        </ion-list>
+
+        <br />
+
         <!-- RATING HEADER -->
         <ion-label class="rating-header">Add Ratings and FeedBack</ion-label>
         <!-- RATING -->
@@ -60,29 +78,16 @@
           <ion-select-option Value="3">3</ion-select-option>
           <ion-select-option Value="4">4</ion-select-option>
           <ion-select-option Value="5">5</ion-select-option>
-  
+
           </ion-select>
         </ion-item>
-        <!-- <ion-item> -->
-          <!-- <ion-select interface="action-sheet"
-          [(ngModel)]="rating"
-          name="rating"
-          Placeholder="rating">
-          <ion-select-option Value="1">1</ion-select-option>
-          <ion-select-option Value="2">2</ion-select-option>
-          <ion-select-option Value="3">3</ion-select-option>
-          <ion-select-option Value="4">4</ion-select-option>
-          <ion-select-option Value="5">5</ion-select-option>
-  
-          </ion-select> -->
-        <!-- </ion-item> -->
 
         <!-- FEEDBACK -->
         <ion-item class="salon-inter-feedback">
           <ion-label class="text-stl2" position="floating">
             FeedBack
           </ion-label>
-          <ion-input         
+          <ion-input
           [(ngModel)]="feedback"
           name="feedback"
           class="float"
@@ -96,5 +101,5 @@
         </div>
         <div class="spacer-h-s"></div>
       </div>
-        
+
   </ion-content>
